@@ -518,7 +518,17 @@ class AmazonAI_Common
 
 	}
 
+    public function is_commercials_enabled(){
+        $value = get_option('commercials_enabled', 'on');
+        if (empty($value)) {
+            $result = false;
+        }
+        else {
+            $result = true;
+        }
 
+        return $result;
+    }
 
 	/**
 	 * Validates if AWS configuration is correct and AWS can be reached.
@@ -527,6 +537,9 @@ class AmazonAI_Common
 	 */
 	public function validate_amazon_polly_access()
 	{
+        if($this->is_commercials_enabled()){
+            return true;
+        }
 		try {
 			$this->check_aws_access();
 

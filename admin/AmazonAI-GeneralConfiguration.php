@@ -66,90 +66,102 @@ class AmazonAI_GeneralConfiguration
             $this,
             'general_gui'
         ), 'amazon_ai');
-        add_settings_field('amazon_polly_access_key', __('AWS access key:', 'amazonpolly'), array(
+
+        add_settings_field('commercials_enabled', __('Free use with commercials:', 'amazonpolly'), array(
             $this,
-            'access_key_gui'
+            'commercials_gui'
         ), 'amazon_ai', 'amazon_ai_general', array(
-            'label_for' => 'amazon_polly_access_key'
+            'label_for' => 'commercials_enabled'
         ));
-        add_settings_field('amazon_polly_secret_key', __('AWS secret key:', 'amazonpolly'), array(
-            $this,
-            'secret_key_gui'
-        ), 'amazon_ai', 'amazon_ai_general', array(
-            'label_for' => 'amazon_polly_secret_key'
-        ));
+        if(!$this->common->is_commercials_enabled()){
+            add_settings_field('amazon_polly_access_key', __('AWS access key:', 'amazonpolly'), array(
+                $this,
+                'access_key_gui'
+            ), 'amazon_ai', 'amazon_ai_general', array(
+                'label_for' => 'amazon_polly_access_key'
+            ));
+            add_settings_field('amazon_polly_secret_key', __('AWS secret key:', 'amazonpolly'), array(
+                $this,
+                'secret_key_gui'
+            ), 'amazon_ai', 'amazon_ai_general', array(
+                'label_for' => 'amazon_polly_secret_key'
+            ));
+            register_setting('amazon_ai', 'amazon_polly_access_key');
+            register_setting('amazon_ai', 'amazon_polly_secret_key');
+        }
 
-
-        register_setting('amazon_ai', 'amazon_polly_access_key');
-        register_setting('amazon_ai', 'amazon_polly_secret_key');
-
+        register_setting('amazon_ai', 'commercials_enabled');
         if ($this->common->validate_amazon_polly_access()) {
+            if(!$this->common->is_commercials_enabled()){
+                add_settings_field('amazon_polly_region', __('AWS Region:', 'amazonpolly'), array(
+                    $this,
+                    'region_gui'
+                ), 'amazon_ai', 'amazon_ai_general', array(
+                    'label_for' => 'amazon_polly_region'
+                ));
+            }
+            add_settings_field('amazon_ai_source_language', __('Source language:', 'amazonpolly'), array(
+                $this,
+                'source_language_gui'
+            ), 'amazon_ai', 'amazon_ai_general', array(
+                'label_for' => 'amazon_ai_source_language'
+            ));
 
-          add_settings_field('amazon_polly_region', __('AWS Region:', 'amazonpolly'), array(
-              $this,
-              'region_gui'
-          ), 'amazon_ai', 'amazon_ai_general', array(
-              'label_for' => 'amazon_polly_region'
-          ));
-          add_settings_field('amazon_ai_source_language', __('Source language:', 'amazonpolly'), array(
-              $this,
-              'source_language_gui'
-          ), 'amazon_ai', 'amazon_ai_general', array(
-              'label_for' => 'amazon_ai_source_language'
-          ));
+            // ************************************************* *
+            // ************** STORAGE SECTION ************** *
+            if(!$this->common->is_commercials_enabled()){
+                add_settings_section('amazon_ai_storage', __('Cloud storage', 'amazonpolly'), array(
+                    $this,
+                    'storage_gui'
+                ), 'amazon_ai');
+                add_settings_field('amazon_polly_s3', __('Store audio in Amazon S3:', 'amazonpolly'), array(
+                    $this,
+                    's3_gui'
+                ), 'amazon_ai', 'amazon_ai_storage', array(
+                    'label_for' => 'amazon_polly_s3'
+                ));
+                add_settings_field('amazon_polly_cloudfront', __('Amazon CloudFront (CDN) domain name:', 'amazonpolly'), array(
+                    $this,
+                    'cloudfront_gui'
+                ), 'amazon_ai', 'amazon_ai_storage', array(
+                    'label_for' => 'amazon_polly_cloudfront'
+                ));
+            }
+            // ************************************************* *
+            // ************** OTHER SECTION ************** *
+            add_settings_section('amazon_ai_other', __('Other settings', 'amazonpolly'), array(
+                $this,
+                'other_gui'
+            ), 'amazon_ai');
+            add_settings_field('amazon_polly_posttypes', __('Post types:', 'amazonpolly'), array(
+                $this,
+                'posttypes_gui'
+            ), 'amazon_ai', 'amazon_ai_other', array(
+                'label_for' => 'amazon_polly_posttypes'
+            ));
+            add_settings_field('amazon_polly_poweredby', __('Display "Powered by AWS":', 'amazonpolly'), array(
+                $this,
+                'poweredby_gui'
+            ), 'amazon_ai', 'amazon_ai_other', array(
+                'label_for' => 'amazon_polly_poweredby'
+            ));
+            add_settings_field('amazon_ai_logging', __('Enable logging:', 'amazonpolly'), array(
+                $this,
+                'logging_gui'
+            ), 'amazon_ai', 'amazon_ai_other', array(
+                'label_for' => 'amazon_ai_logging'
+            ));
 
-          // ************************************************* *
-          // ************** STORAGE SECTION ************** *
-          add_settings_section('amazon_ai_storage', __('Cloud storage', 'amazonpolly'), array(
-              $this,
-              'storage_gui'
-          ), 'amazon_ai');
-          add_settings_field('amazon_polly_s3', __('Store audio in Amazon S3:', 'amazonpolly'), array(
-              $this,
-              's3_gui'
-          ), 'amazon_ai', 'amazon_ai_storage', array(
-              'label_for' => 'amazon_polly_s3'
-          ));
-          add_settings_field('amazon_polly_cloudfront', __('Amazon CloudFront (CDN) domain name:', 'amazonpolly'), array(
-              $this,
-              'cloudfront_gui'
-          ), 'amazon_ai', 'amazon_ai_storage', array(
-              'label_for' => 'amazon_polly_cloudfront'
-          ));
-          // ************************************************* *
-          // ************** OTHER SECTION ************** *
-          add_settings_section('amazon_ai_other', __('Other settings', 'amazonpolly'), array(
-              $this,
-              'other_gui'
-          ), 'amazon_ai');
-          add_settings_field('amazon_polly_posttypes', __('Post types:', 'amazonpolly'), array(
-              $this,
-              'posttypes_gui'
-          ), 'amazon_ai', 'amazon_ai_other', array(
-              'label_for' => 'amazon_polly_posttypes'
-          ));
-          add_settings_field('amazon_polly_poweredby', __('Display "Powered by AWS":', 'amazonpolly'), array(
-              $this,
-              'poweredby_gui'
-          ), 'amazon_ai', 'amazon_ai_other', array(
-              'label_for' => 'amazon_polly_poweredby'
-          ));
-          add_settings_field('amazon_ai_logging', __('Enable logging:', 'amazonpolly'), array(
-              $this,
-              'logging_gui'
-          ), 'amazon_ai', 'amazon_ai_other', array(
-              'label_for' => 'amazon_ai_logging'
-          ));
-
-          register_setting('amazon_ai', 'amazon_ai_source_language');
-          register_setting('amazon_ai', 'amazon_polly_region');
-  				register_setting('amazon_ai', 'amazon_polly_s3');
-  				register_setting('amazon_ai', 'amazon_polly_cloudfront');
-          register_setting('amazon_ai', 'amazon_polly_posttypes');
-          register_setting('amazon_ai', 'amazon_polly_poweredby');
-          register_setting('amazon_ai', 'amazon_ai_logging');
+            register_setting('amazon_ai', 'amazon_ai_source_language');
+            register_setting('amazon_ai', 'amazon_polly_region');
+            register_setting('amazon_ai', 'amazon_polly_s3');
+            register_setting('amazon_ai', 'amazon_polly_cloudfront');
+            register_setting('amazon_ai', 'amazon_polly_posttypes');
+            register_setting('amazon_ai', 'amazon_polly_poweredby');
+            register_setting('amazon_ai', 'amazon_ai_logging');
 
         }
+
 
 
     }
@@ -165,7 +177,17 @@ class AmazonAI_GeneralConfiguration
         echo '<p class="description" for="amazon_polly_posttypes">Post types in your WordPress environment</p>';
     }
 
+    function commercials_gui(){
+        if (  $this->common->is_commercials_enabled() ) {
+            $checked                = ' checked ';
+        } else {
+            $checked                = ' ';
+        }
 
+        echo '<input type="checkbox" name="commercials_enabled" id="commercials_enabled" ' . esc_attr($checked) . ' > <p class="description"></p>';
+
+        echo '<p class="description">it is free</p>';
+    }
     /**
      * Render the Access Key input for this plugin
      *

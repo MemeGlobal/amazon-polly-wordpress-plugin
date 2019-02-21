@@ -411,26 +411,9 @@ public function playerlabel_gui() {
 				return strcmp( $voice1['LanguageName'], $voice2['LanguageName'] );
 		}
 
-        //TODO: add more languages according to the Source language in general settings
-        $voice_list = array(
-            "Voices" => array(
-                array("LanguageName" => "English", "Id" => "Matthew"),
-                array("LanguageName" => "English", "Id" => "Joanna"),
-                array("LanguageName" => "French", "Id" => "Mathieu"),
-                array("LanguageName" => "French", "Id" => "Celine"),
-                array("LanguageName" => "Spanish", "Id" => "Enrique"),
-                array("LanguageName" => "Spanish", "Id" => "Conchita"),
-                array("LanguageName" => "German", "Id" => "Hans"),
-                array("LanguageName" => "German", "Id" => "Marlene")
-            )
-        );
-
-
 			$voice_id   = $this->common->get_voice_id();
-        if(!$this->common->is_tim_limitless_enabled()){
             $voice_list = $this->common->get_polly_voices();
-        }
-      $language_name = $this->common->get_source_language_name();
+            $language_name = $this->common->get_source_language_name();
 
 			echo '<select name="amazon_polly_voice_id" id="amazon_polly_voice_id">';
 			usort( $voice_list['Voices'], 'sort_voices' );

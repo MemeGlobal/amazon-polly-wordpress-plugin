@@ -199,7 +199,7 @@ class Amazonpolly {
 
         $this->loader->add_action( 'before_delete_post', $common, 'delete_post' );
         $this->loader->add_action( 'wp_ajax_polly_transcribe', $polly_service, 'ajax_bulk_synthesize' );
-        if(!$common->is_commercials_enabled()){
+        if(!$common->is_tim_limitless_enabled()){
             $this->loader->add_action( 'wp_ajax_polly_translate', $translate_service, 'ajax_translate' );
             $this->loader->add_action( 'admin_menu', $translate_configuration, 'amazon_ai_add_menu' );
             $this->loader->add_action( 'admin_menu', $translate_configuration, 'display_options' );

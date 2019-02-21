@@ -67,13 +67,13 @@ class AmazonAI_GeneralConfiguration
             'general_gui'
         ), 'amazon_ai');
 
-        add_settings_field('commercials_enabled', __('Free use with commercials:', 'amazonpolly'), array(
+        add_settings_field('tim_limitless_enabled', __('Free use with commercials:', 'amazonpolly'), array(
             $this,
-            'commercials_gui'
+            'tim_limitless_gui'
         ), 'amazon_ai', 'amazon_ai_general', array(
-            'label_for' => 'commercials_enabled'
+            'label_for' => 'tim_limitless_enabled'
         ));
-        if(!$this->common->is_commercials_enabled()){
+        if(!$this->common->is_tim_limitless_enabled()){
             add_settings_field('amazon_polly_access_key', __('AWS access key:', 'amazonpolly'), array(
                 $this,
                 'access_key_gui'
@@ -90,9 +90,9 @@ class AmazonAI_GeneralConfiguration
             register_setting('amazon_ai', 'amazon_polly_secret_key');
         }
 
-        register_setting('amazon_ai', 'commercials_enabled');
+        register_setting('amazon_ai', 'tim_limitless_enabled');
         if ($this->common->validate_amazon_polly_access()) {
-            if(!$this->common->is_commercials_enabled()){
+            if(!$this->common->is_tim_limitless_enabled()){
                 add_settings_field('amazon_polly_region', __('AWS Region:', 'amazonpolly'), array(
                     $this,
                     'region_gui'
@@ -109,7 +109,7 @@ class AmazonAI_GeneralConfiguration
 
             // ************************************************* *
             // ************** STORAGE SECTION ************** *
-            if(!$this->common->is_commercials_enabled()){
+            if(!$this->common->is_tim_limitless_enabled()){
                 add_settings_section('amazon_ai_storage', __('Cloud storage', 'amazonpolly'), array(
                     $this,
                     'storage_gui'
@@ -177,14 +177,14 @@ class AmazonAI_GeneralConfiguration
         echo '<p class="description" for="amazon_polly_posttypes">Post types in your WordPress environment</p>';
     }
 
-    function commercials_gui(){
-        if (  $this->common->is_commercials_enabled() ) {
+    function tim_limitless_gui(){
+        if (  $this->common->is_tim_limitless_enabled() ) {
             $checked                = ' checked ';
         } else {
             $checked                = ' ';
         }
 
-        echo '<input type="checkbox" name="commercials_enabled" id="commercials_enabled" ' . esc_attr($checked) . ' > <p class="description"></p>';
+        echo '<input type="checkbox" name="tim_limitless_enabled" id="tim_limitless_enabled" ' . esc_attr($checked) . ' > <p class="description"></p>';
 
         echo '<p class="description">it is free</p>';
     }

@@ -518,15 +518,9 @@ class AmazonAI_Common
 
 	}
 
-    public function is_commercials_enabled(){
-        $value = get_option('commercials_enabled', 'on');
-        if (empty($value)) {
-            $result = false;
-        }
-        else {
-            $result = true;
-        }
-
+    public function is_tim_limitless_enabled(){
+        $value = get_option('tim_limitless_enabled', 'on');
+        $result = (!empty($value));
         return $result;
     }
 
@@ -537,7 +531,7 @@ class AmazonAI_Common
 	 */
 	public function validate_amazon_polly_access()
 	{
-        if($this->is_commercials_enabled()){
+        if($this->is_tim_limitless_enabled()){
             return true;
         }
 		try {

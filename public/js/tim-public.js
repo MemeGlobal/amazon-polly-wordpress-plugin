@@ -8,16 +8,12 @@
  */
 
 (function( $ ) {
-	'use strict';
+    'use strict';
 
-	$( document ).ready(
-		function(){
-
-		}
-	);
+    $( document ).ready(
+        function(){
+            alert("hello from tim public");
+        }
+    );
 
 })( jQuery );
-
-function start_tim_limitless() {
-	alert("do the magic");
-}

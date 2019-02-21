@@ -411,10 +411,9 @@ public function playerlabel_gui() {
 				return strcmp( $voice1['LanguageName'], $voice2['LanguageName'] );
 		}
 
-
 			$voice_id   = $this->common->get_voice_id();
-			$voice_list = $this->common->get_polly_voices();
-      $language_name = $this->common->get_source_language_name();
+            $voice_list = $this->common->get_polly_voices();
+            $language_name = $this->common->get_source_language_name();
 
 			echo '<select name="amazon_polly_voice_id" id="amazon_polly_voice_id">';
 			usort( $voice_list['Voices'], 'sort_voices' );

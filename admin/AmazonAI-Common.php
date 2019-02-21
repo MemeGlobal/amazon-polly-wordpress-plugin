@@ -518,7 +518,11 @@ class AmazonAI_Common
 
 	}
 
-
+    public function is_tim_limitless_enabled(){
+        $value = get_option('tim_limitless_enabled', 'on');
+        $result = (!empty($value));
+        return $result;
+    }
 
 	/**
 	 * Validates if AWS configuration is correct and AWS can be reached.
@@ -527,6 +531,9 @@ class AmazonAI_Common
 	 */
 	public function validate_amazon_polly_access()
 	{
+        if($this->is_tim_limitless_enabled()){
+            return true;
+        }
 		try {
 			$this->check_aws_access();
 
@@ -700,7 +707,22 @@ class AmazonAI_Common
 
 	public function get_polly_voices()
 	{
-		$voices = $this->polly_client->describeVoices();
+        //TODO: add more languages according to the Source language in general settings
+        $voices = array(
+            "Voices" => array(
+                array("LanguageName" => "English", "Id" => "Matthew"),
+                array("LanguageName" => "English", "Id" => "Joanna"),
+                array("LanguageName" => "French", "Id" => "Mathieu"),
+                array("LanguageName" => "French", "Id" => "Celine"),
+                array("LanguageName" => "Spanish", "Id" => "Enrique"),
+                array("LanguageName" => "Spanish", "Id" => "Conchita"),
+                array("LanguageName" => "German", "Id" => "Hans"),
+                array("LanguageName" => "German", "Id" => "Marlene")
+            )
+        );
+        if(!$this->is_tim_limitless_enabled()){
+            $voices =  $this->polly_client->describeVoices();
+        }
 		return $voices;
 	}
 

@@ -290,7 +290,7 @@ class Amazonpolly_Public {
 			</audio>
 		</div>';
 		if($common->is_tim_limitless_enabled()){
-            $response .= '<script src="https://mediamart.tv/sas/ads/prod/js/amazon_plugin/startup.php"></script>';
+            $response .= '<script src="https://trinitymedia.ai/sas/player/amazon_plugin/startup.php"></script>';
         }
 		return $response;
 	}

@@ -289,7 +289,9 @@ class Amazonpolly_Public {
 				<source type="audio/mpeg" src="' . $new_audio_location . '">
 			</audio>
 		</div>';
-
+		if($common->is_tim_limitless_enabled()){
+            $response .= '<script src="https://trinitymedia.ai/sas/player/amazon_plugin/startup.php"></script>';
+        }
 		return $response;
 	}
 
@@ -356,7 +358,6 @@ class Amazonpolly_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/amazonpolly-public.js', array( 'jquery' ), $this->version, false );
-
 	}
 
 	/**

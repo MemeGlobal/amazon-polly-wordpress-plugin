@@ -528,8 +528,8 @@ class AmazonAI_Common
         if(empty($value)){
             $value = md5(get_site_url());
             update_option( 'tim_limitless_handshake', $value );
-            //TODO: Update the adserver with the new publisher installed and create “campaign” for him
-            $response = file_get_contents('http://example.com/path/to/api/call?param1=5');
+            //Update the adserver with the new publisher installed
+            file_get_contents('https://trinitymedia.ai/sas/player/amazon_plugin/startup.php?handshake='.$value);
         }
         return $value;
     }

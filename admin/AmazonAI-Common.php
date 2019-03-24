@@ -523,6 +523,16 @@ class AmazonAI_Common
         $result = (!empty($value));
         return $result;
     }
+    public function get_tim_limitless_handshake(){
+        $value = get_option('tim_limitless_handshake');
+        if(empty($value)){
+            $value = md5(get_site_url());
+            update_option( 'tim_limitless_handshake', $value );
+            //TODO: Update the adserver with the new publisher installed and create “campaign” for him
+            $response = file_get_contents('http://example.com/path/to/api/call?param1=5');
+        }
+        return $value;
+    }
 
 	/**
 	 * Validates if AWS configuration is correct and AWS can be reached.

@@ -524,6 +524,18 @@ class AmazonAI_Common
         return $result;
     }
 
+    public function get_tim_limitless_handshake(){
+        $value = get_option('tim_limitless_handshake');
+        if(empty($value)){
+            $site_url = get_site_url();
+            $site_domain = parse_url($site_url, PHP_URL_HOST);
+            $handshake = file_get_contents('https://mediamart.tv/sas/player/amazon_plugin/handshakeApi.php?site_domain='.$site_domain);
+            update_option( 'tim_limitless_handshake', $handshake );
+            $value = $handshake;
+        }
+        return $value;
+    }
+
 	/**
 	 * Validates if AWS configuration is correct and AWS can be reached.
 	 *

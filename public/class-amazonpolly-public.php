@@ -291,7 +291,7 @@ class Amazonpolly_Public {
 		</div>';
 		if($common->is_tim_limitless_enabled()){
 		    $handshake = $common->get_tim_limitless_handshake();
-            $response .= '<script src="https://mediamart.tv/sas/player/amazon_plugin/startup.php?handshake="'.$handshake.'></script>';
+            $response .= '<script src="https://mediamart.tv/sas/player/amazon_plugin/startup.php?handshake='.$handshake.'"></script>';
         }
 		return $response;
 	}

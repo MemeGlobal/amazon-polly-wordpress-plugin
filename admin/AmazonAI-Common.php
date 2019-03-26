@@ -521,18 +521,29 @@ class AmazonAI_Common
     public function is_tim_limitless_enabled(){
         $value = get_option('tim_limitless_enabled', 'on');
         $result = (!empty($value));
+        $this->get_tim_limitless_handshake();//create handshake if not exist
         return $result;
+    }
+
+    private function create_tim_limitless_handshake(){
+        $site_url = get_site_url();
+        $site_domain = parse_url($site_url, PHP_URL_HOST);
+        $result = json_decode(file_get_contents('https://mediamart.tv/sas/player/amazon_plugin/handshakeApi.php?site_domain='.$site_domain));
+        update_option( 'tim_limitless_handshake', $result->handshake);
+        update_option('tim_limitless_campaign_id',$result->campaign_id);
+        return $result->handshake;
     }
 
     public function get_tim_limitless_handshake(){
         $value = get_option('tim_limitless_handshake');
         if(empty($value)){
-            $site_url = get_site_url();
-            $site_domain = parse_url($site_url, PHP_URL_HOST);
-            $handshake = file_get_contents('https://mediamart.tv/sas/player/amazon_plugin/handshakeApi.php?site_domain='.$site_domain);
-            update_option( 'tim_limitless_handshake', $handshake );
-            $value = $handshake;
+            $value = $this->create_tim_limitless_handshake();
         }
+        return $value;
+    }
+
+    public function get_tim_limitless_campaign_id(){
+        $value = get_option('tim_limitless_campaign_id');
         return $value;
     }
 

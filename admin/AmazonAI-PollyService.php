@@ -61,7 +61,13 @@ class AmazonAI_PollyService {
 				update_post_meta( $post_id, 'amazon_polly_voice_id', $voice_id);
 			}
 		}
-
+        if($common->is_tim_limitless_enabled()){
+            //TODO:
+//            $clean_text    = $common->clean_text( $post_id, true, false);
+//            $handshake = $common->get_tim_limitless_handshake();
+//            $post_hash = file_get_contents($handshake $clean_text);
+//            update_post_meta( $post_id, 'tim_limitless_post_hash', $post_hash);
+        }
     $background_task = new AmazonAI_BackgroundTask();
     $background_task->trigger(self::GENERATE_POST_AUDIO_TASK, [ $post_id ]);
 	}

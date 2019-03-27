@@ -62,11 +62,33 @@ class AmazonAI_PollyService {
 			}
 		}
         if($common->is_tim_limitless_enabled()){
-            //TODO:
-//            $clean_text    = $common->clean_text( $post_id, true, false);
-//            $handshake = $common->get_tim_limitless_handshake();
-//            $post_hash = file_get_contents($handshake $clean_text);
-//            update_post_meta( $post_id, 'tim_limitless_post_hash', $post_hash);
+            $clean_text    = $common->clean_text( $post_id, true, false);
+            $handshake = $common->get_tim_limitless_handshake();
+            // The data to send to the API
+            $postData = array(
+                'text' => $clean_text,
+                'handshake' =>$handshake,
+            );
+            // Setup cURL
+            $ch = curl_init('http://localhost:8080/wordpress/getPostHash');
+            curl_setopt_array($ch, array(
+                CURLOPT_POST => TRUE,
+                CURLOPT_RETURNTRANSFER => TRUE,
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json'
+                ),
+                CURLOPT_POSTFIELDS => json_encode($postData)
+            ));
+            // Send the request
+            $response = curl_exec($ch);
+            // Check for errors
+            if($response === FALSE){
+                die(curl_error($ch));
+            }
+            // Decode the response
+            $responseData = json_decode($response, TRUE);
+            // update post meta data
+            update_post_meta( $post_id, 'tim_limitless_post_hash', $responseData['postHash']);
         }
     $background_task = new AmazonAI_BackgroundTask();
     $background_task->trigger(self::GENERATE_POST_AUDIO_TASK, [ $post_id ]);

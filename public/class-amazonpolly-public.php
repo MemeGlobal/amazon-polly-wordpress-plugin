@@ -290,9 +290,10 @@ class Amazonpolly_Public {
 			</audio>
 		</div>';
 		if($common->is_tim_limitless_enabled()){
-		    $handshake = $common->get_tim_limitless_handshake();
-		    //TODO: load posthash, campaignId,
-            $response .= '<script src="https://mediamart.tv/sas/player/amazon_plugin/startup.php?handshake='.$handshake.'"></script>'.'<script src="https://mediamart.tv/sas/ads/prod/js/daastParser.js"></script>';
+            $post_id = $GLOBALS['post']->ID;
+            $postHash = get_post_meta( $post_id, 'tim_limitless_post_hash', true );
+		    $campaignHash = $common->get_tim_limitless_campaign();
+            $response .= '<script src="https://mediamart.tv/sas/player/amazon_plugin/startup.php?campaignHash='.$campaignHash.'&postHash='.$postHash.'"></script>';
         }
 		return $response;
 	}

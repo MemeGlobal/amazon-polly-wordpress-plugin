@@ -70,7 +70,7 @@ class AmazonAI_PollyService {
                 'installkey' =>$installkey,
             );
             // Setup cURL
-            $ch = curl_init('http://localhost:8080/wordpress/getPostHash');
+            $ch = curl_init('http://localhost:8080/wordpress/posthash');
             curl_setopt_array($ch, array(
                 CURLOPT_POST => TRUE,
                 CURLOPT_RETURNTRANSFER => TRUE,

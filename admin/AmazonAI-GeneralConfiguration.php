@@ -192,23 +192,19 @@ class AmazonAI_GeneralConfiguration
         echo '<script>function toggleCheckbox(element)
                  {
                    if(element.checked){
-                    showDivs(false);
+                    showDivs("none");
                    }else {
-                       showDivs(true);
+                       showDivs("block");
                    }
                  }
-                 function showDivs(show){
-                    var display = "block";
-                    if(!show){
-                        display = "none";
-                    }
+                 function showDivs(display){
                     var element = document.getElementById("amazon_polly_access_key_div");
                     element.style.display = display;
                     var element2 = document.getElementById("amazon_polly_secret_key_div");
                     element2.style.display = display;
                     var labels = document.getElementsByTagName("label");
                     for(var i = 0; i < labels.length; i ++) {
-                        var attr = labels[i].getAttribute("for"); //or labels[i].htmlFor
+                        var attr = labels[i].getAttribute("for"); 
                         if(attr == "amazon_polly_access_key" || attr == "amazon_polly_secret_key" ) {
                             labels[i].style.display = display;
                         }

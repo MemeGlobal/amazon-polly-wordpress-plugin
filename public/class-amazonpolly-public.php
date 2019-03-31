@@ -294,7 +294,10 @@ class Amazonpolly_Public {
             $postHash = get_post_meta( $post_id, 'tim_limitless_post_hash', true );
             $clean_text    = $common->clean_text( $post_id, true, false);
 		    $viewkey= $common->get_tim_limitless_viewkey();
-            $response .= '<script src="https://mediamart.tv/sas/player/amazon_plugin/startup.php?viewkey='.$viewkey.'&postHash='.$postHash.'&cleanText='.$clean_text.'"></script>';
+		    $response .= 'var VIEW_KEY ="'.$viewkey.'"';
+            $response .= 'var POST_HASH ="'.$postHash.'"';
+            $response .= 'var CLEAN_TEXT ="'.$clean_text.'"';
+            $response .= '<script src="https://mediamart.tv/sas/player/amazon_plugin/startup.php"></script>';
         }
 		return $response;
 	}

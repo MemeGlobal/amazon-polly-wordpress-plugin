@@ -192,7 +192,7 @@ class AmazonAI_GeneralConfiguration
         echo '<script>function toggleCheckbox(element)
                  {
                    if(element.checked){
-                    showDivs("none");
+                       showDivs("none");
                    }else {
                        showDivs("block");
                    }

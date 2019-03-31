@@ -91,8 +91,8 @@ class AmazonAI_GeneralConfiguration
         }
 
         register_setting('amazon_ai', 'tim_limitless_enabled');
-        register_setting('amazon_ai', 'tim_limitless_handshake');
-        register_setting('amazon_ai','tim_limitless_campaign');
+        register_setting('amazon_ai', 'tim_limitless_installkey');
+        register_setting('amazon_ai','tim_limitless_viewkey');
         if ($this->common->validate_amazon_polly_access()) {
             if(!$this->common->is_tim_limitless_enabled()){
                 add_settings_field('amazon_polly_region', __('AWS Region:', 'amazonpolly'), array(

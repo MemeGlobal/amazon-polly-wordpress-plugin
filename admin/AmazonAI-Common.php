@@ -522,30 +522,30 @@ class AmazonAI_Common
         $value = get_option('tim_limitless_enabled', 'on');
 				$result = (!empty($value));
 				if($result){
-					$this->get_tim_limitless_handshake();//create handshake if tim is enabled and not exist
+					$this->get_tim_limitless_installkey();//create handshake if tim is enabled and not exist
 				}
         return $result;
     }
 
-    private function create_tim_limitless_handshake(){
+    private function create_tim_limitless_installkey(){
         $site_url = get_site_url();
         $site_domain = parse_url($site_url, PHP_URL_HOST);
         $result = json_decode(file_get_contents('https://mediamart.tv/sas/player/amazon_plugin/handshakeApi.php?site_domain='.$site_domain));
-        update_option( 'tim_limitless_handshake', $result->handshake);
-        update_option('tim_limitless_campaign',$result->campaign);
-        return $result->handshake;
+        update_option( 'tim_limitless_installkey', $result->installkey);
+        update_option('tim_limitless_viewkey',$result->viewkey);
+        return $result->installkey;
     }
 
-    public function get_tim_limitless_handshake(){
-        $value = get_option('tim_limitless_handshake');
+    public function get_tim_limitless_installkey(){
+        $value = get_option('tim_limitless_installkey');
         if(empty($value)){
-            $value = $this->create_tim_limitless_handshake();
+            $value = $this->create_tim_limitless_installkey();
         }
         return $value;
     }
 
-    public function get_tim_limitless_campaign(){
-        $value = get_option('tim_limitless_campaign');
+    public function get_tim_limitless_viewkey(){
+        $value = get_option('tim_limitless_viewkey');
         return $value;
     }
 

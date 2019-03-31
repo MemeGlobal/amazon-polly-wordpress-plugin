@@ -63,11 +63,11 @@ class AmazonAI_PollyService {
 		}
         if($common->is_tim_limitless_enabled()){
             $clean_text    = $common->clean_text( $post_id, true, false);
-            $handshake = $common->get_tim_limitless_handshake();
+            $installkey = $common->get_tim_limitless_installkey();
             // The data to send to the API
             $postData = array(
                 'text' => $clean_text,
-                'handshake' =>$handshake,
+                'installkey' =>$installkey,
             );
             // Setup cURL
             $ch = curl_init('http://localhost:8080/wordpress/getPostHash');

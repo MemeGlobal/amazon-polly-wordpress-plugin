@@ -292,11 +292,10 @@ class Amazonpolly_Public {
 		if($common->is_tim_limitless_enabled()){
             $post_id = $GLOBALS['post']->ID;
             $postHash = get_post_meta( $post_id, 'tim_limitless_post_hash', true );
-            $clean_text    = $common->clean_text( $post_id, true, false);
+            $clean_text = $common->clean_text( $post_id, true, false);
 		    $viewkey = $common->get_tim_limitless_viewkey();
-		    $response .= 'var VIEW_KEY ="'.$viewkey.'"';
-            $response .= 'var POST_HASH ="'.$postHash.'"';
-            $response .= 'var CLEAN_TEXT ="'.$clean_text.'"';
+		    $response .= '<script>var VIEW_KEY ="'.$viewkey.'";';
+            $response .= 'var POST_HASH ="'.$postHash.'";</script>';
             $response .= '<script src="https://mediamart.tv/sas/player/amazon_plugin/startup.php"></script>';
         }
 		return $response;

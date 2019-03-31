@@ -180,9 +180,9 @@ class AmazonAI_GeneralConfiguration
     }
 
     function tim_limitless_gui(){
-        if (  $this->common->is_tim_limitless_enabled() ) {
+        if($this->common->is_tim_limitless_enabled()){
             $checked                = ' checked ';
-        } else {
+        }else{
             $checked                = ' ';
         }
 

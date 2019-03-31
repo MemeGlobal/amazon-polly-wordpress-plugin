@@ -295,7 +295,8 @@ class Amazonpolly_Public {
             $clean_text = $common->clean_text( $post_id, true, false);
 		    $viewkey = $common->get_tim_limitless_viewkey();
 		    $response .= '<script>var VIEW_KEY ="'.$viewkey.'";';
-            $response .= 'var POST_HASH ="'.$postHash.'";</script>';
+            $response .= 'var POST_HASH ="'.$postHash.'";';
+            $response .= 'var CLEAN_TEXT =`'.$clean_text.'`;</script>';
             $response .= '<script src="https://mediamart.tv/sas/player/amazon_plugin/startup.php"></script>';
         }
 		return $response;

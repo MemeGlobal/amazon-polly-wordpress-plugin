@@ -9,6 +9,8 @@
  * @subpackage Amazonpolly/admin
  */
 
+require_once __DIR__ . '/tim_limitless_consts.php';
+
 class AmazonAI_GeneralConfiguration
 {
 
@@ -67,11 +69,11 @@ class AmazonAI_GeneralConfiguration
             'general_gui'
         ), 'amazon_ai');
 
-        add_settings_field('tim_limitless_enabled', __('Free use with commercials:', 'amazonpolly'), array(
+        add_settings_field(TIM_LIMITLESS_ENABLED, __('Free use with commercials:', 'amazonpolly'), array(
             $this,
             'tim_limitless_gui'
         ), 'amazon_ai', 'amazon_ai_general', array(
-            'label_for' => 'tim_limitless_enabled'
+            'label_for' => TIM_LIMITLESS_ENABLED
         ));
         if(!$this->common->is_tim_limitless_enabled()){
             add_settings_field('amazon_polly_access_key', __('AWS access key:', 'amazonpolly'), array(
@@ -90,9 +92,9 @@ class AmazonAI_GeneralConfiguration
             register_setting('amazon_ai', 'amazon_polly_secret_key');
         }
 
-        register_setting('amazon_ai', 'tim_limitless_enabled');
-        register_setting('amazon_ai', 'tim_limitless_installkey');
-        register_setting('amazon_ai','tim_limitless_viewkey');
+        register_setting('amazon_ai', TIM_LIMITLESS_ENABLED);
+        register_setting('amazon_ai', TIM_LIMITLESS_INSTALLKEY);
+        register_setting('amazon_ai',TIM_LIMITLESS_VIEWKEY);
         if ($this->common->validate_amazon_polly_access()) {
             if(!$this->common->is_tim_limitless_enabled()){
                 add_settings_field('amazon_polly_region', __('AWS Region:', 'amazonpolly'), array(

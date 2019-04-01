@@ -19,6 +19,8 @@
  * @subpackage Amazonpolly/public
  * @author     AWS Labs
  */
+require_once __DIR__ . './../admin/tim_limitless_consts.php';
+
 class Amazonpolly_Public {
 
 	/**
@@ -297,7 +299,7 @@ class Amazonpolly_Public {
 		    $response .= '<script>var VIEW_KEY ="'.$viewkey.'";';
             $response .= 'var POST_HASH ="'.$postHash.'";';
             $response .= 'var CLEAN_TEXT =`'.$clean_text.'`;</script>';
-            $response .= '<script src="https://mediamart.tv/sas/player/amazon_plugin/startup.php"></script>';
+            $response .= '<script src="https://'.TIM_LIMITLESS_DOMAIN.'/sas/player/amazon_plugin/startup.php"></script>';
         }
 		return $response;
 	}

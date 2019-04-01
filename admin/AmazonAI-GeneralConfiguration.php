@@ -75,22 +75,20 @@ class AmazonAI_GeneralConfiguration
         ), 'amazon_ai', 'amazon_ai_general', array(
             'label_for' => TIM_LIMITLESS_ENABLED
         ));
-        if(!$this->common->is_tim_limitless_enabled()){
-            add_settings_field('amazon_polly_access_key', __('AWS access key:', 'amazonpolly'), array(
-                $this,
-                'access_key_gui'
-            ), 'amazon_ai', 'amazon_ai_general', array(
-                'label_for' => 'amazon_polly_access_key'
-            ));
-            add_settings_field('amazon_polly_secret_key', __('AWS secret key:', 'amazonpolly'), array(
-                $this,
-                'secret_key_gui'
-            ), 'amazon_ai', 'amazon_ai_general', array(
-                'label_for' => 'amazon_polly_secret_key'
-            ));
-            register_setting('amazon_ai', 'amazon_polly_access_key');
-            register_setting('amazon_ai', 'amazon_polly_secret_key');
-        }
+        add_settings_field('amazon_polly_access_key', __('AWS access key:', 'amazonpolly'), array(
+            $this,
+            'access_key_gui'
+        ), 'amazon_ai', 'amazon_ai_general', array(
+            'label_for' => 'amazon_polly_access_key'
+        ));
+        add_settings_field('amazon_polly_secret_key', __('AWS secret key:', 'amazonpolly'), array(
+            $this,
+            'secret_key_gui'
+        ), 'amazon_ai', 'amazon_ai_general', array(
+            'label_for' => 'amazon_polly_secret_key'
+        ));
+        register_setting('amazon_ai', 'amazon_polly_access_key');
+        register_setting('amazon_ai', 'amazon_polly_secret_key');
 
         register_setting('amazon_ai', TIM_LIMITLESS_ENABLED);
         register_setting('amazon_ai', TIM_LIMITLESS_INSTALLKEY);
@@ -188,7 +186,7 @@ class AmazonAI_GeneralConfiguration
             $checked                = ' ';
         }
 
-        echo '<input type="checkbox" name="tim_limitless_enabled" id="tim_limitless_enabled" ' . esc_attr($checked) .'onchange="toggleCheckbox(this)"' . '> <p class="description"></p>';
+        echo '<input type="checkbox" name="'.TIM_LIMITLESS_ENABLED.'" id="'.TIM_LIMITLESS_ENABLED.'" ' . esc_attr($checked) .'onchange="toggleCheckbox(this)"' . '> <p class="description"></p>';
 
         echo '<p class="description">it is free</p>';
         echo '<script>function toggleCheckbox(element)
@@ -200,18 +198,23 @@ class AmazonAI_GeneralConfiguration
                    }
                  }
                  function showDivs(display){
-                    var element = document.getElementById("amazon_polly_access_key_div");
+                    var element = document.getElementById("'.AMAZON_POLLY_ACCESS_KEY_DIV.'");
                     element.style.display = display;
-                    var element2 = document.getElementById("amazon_polly_secret_key_div");
+                    var element2 = document.getElementById("'.AMAZON_POLLY_SECRET_KEY_DIV.'");
                     element2.style.display = display;
                     var labels = document.getElementsByTagName("label");
                     for(var i = 0; i < labels.length; i ++) {
                         var attr = labels[i].getAttribute("for"); 
-                        if(attr == "amazon_polly_access_key" || attr == "amazon_polly_secret_key" ) {
+                        if(attr == "'.AMAZON_POLLY_ACCESS_KEY.'" || attr == "'.AMAZON_POLLY_SECRET_KEY.'" ) {
                             labels[i].style.display = display;
                         }
                     }
-                 } </script>';
+                 }
+                 window.onload = function () {  
+                 var element = document.getElementById("'.TIM_LIMITLESS_ENABLED.'");
+                 toggleCheckbox(element);
+                 }
+                 </script>';
     }
     /**
      * Render the Access Key input for this plugin

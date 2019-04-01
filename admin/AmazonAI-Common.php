@@ -521,6 +521,28 @@ class AmazonAI_Common
 
 	}
 
+	public function curl_tim_limitless($postData,$url){
+        // Setup cURL
+        $ch = curl_init($url);
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => TRUE,
+            CURLOPT_RETURNTRANSFER => TRUE,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+            CURLOPT_POSTFIELDS => json_encode($postData)
+        ));
+        // Send the request
+        $response = curl_exec($ch);
+        // Check for errors
+        if($response === FALSE){
+            die(curl_error($ch));
+        }
+        // Decode the response
+        $responseData = json_decode($response, TRUE);
+        return $responseData;
+    }
+
     public function is_tim_limitless_enabled(){
         $value = get_option(TIM_LIMITLESS_ENABLED, 'on');
         $result = (!empty($value));

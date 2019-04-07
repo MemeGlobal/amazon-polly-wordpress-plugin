@@ -567,7 +567,7 @@ class AmazonAI_Common
             return false;
         }
         if($response){
-            $result = json_decode(response);
+            $result = json_decode($response);
             update_option( TIM_LIMITLESS_INSTALLKEY, $result->installkey);
             update_option(TIM_LIMITLESS_VIEWKEY,$result->viewkey);
             return $result->installkey;

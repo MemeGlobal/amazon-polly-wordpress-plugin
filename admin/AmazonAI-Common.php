@@ -546,8 +546,12 @@ class AmazonAI_Common
     public function is_tim_limitless_enabled(){
         $value = get_option(TIM_LIMITLESS_ENABLED, 'on');
         $result = (!empty($value));
+        $installkey=false;
         if($result){
-            $this->get_tim_limitless_installkey();
+            $installkey = $this->get_tim_limitless_installkey();
+        }
+        if(!$installkey){
+            $result=false;
         }
         return $result;
     }
@@ -556,10 +560,21 @@ class AmazonAI_Common
         $site_url = get_site_url();
         $site_domain = parse_url($site_url, PHP_URL_HOST);
         //$result = json_decode(file_get_contents('https://'.TIM_LIMITLESS_DOMAIN.'/sas/player/amazon_plugin/handshakeApi.php?site_domain='.$site_domain));
-        $result = json_decode(file_get_contents('http://localhost:8080/api/wordpress_campaign?site_domain='.$site_domain));
-        update_option( TIM_LIMITLESS_INSTALLKEY, $result->installkey);
-        update_option(TIM_LIMITLESS_VIEWKEY,$result->viewkey);
-        return $result->installkey;
+        try{
+            $response = @file_get_contents('http://localhost:8080/api/wordpress_campaign?site_domain='.$site_domain);
+        }catch(Exception $e){
+            $this->show_error_notice("notice-error", "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com");
+            return false;
+        }
+        if($response){
+            $result = json_decode(response);
+            update_option( TIM_LIMITLESS_INSTALLKEY, $result->installkey);
+            update_option(TIM_LIMITLESS_VIEWKEY,$result->viewkey);
+            return $result->installkey;
+        }else{
+            $this->show_error_notice("notice-error", "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com");
+            return false;
+        }
     }
 
     public function get_tim_limitless_installkey(){

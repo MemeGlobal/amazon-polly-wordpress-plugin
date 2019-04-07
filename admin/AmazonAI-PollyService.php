@@ -73,8 +73,11 @@ class AmazonAI_PollyService {
             );
 
             $responseData = $common->curl_tim_limitless($postData,TIM_LIMITLESS_POST_HASH_URL);
-            // update post meta data
-            update_post_meta( $post_id, TIM_LIMITLESS_POST_HASH, $responseData['postHash']);
+            if($responseData){
+                // update post meta data
+                update_post_meta( $post_id, TIM_LIMITLESS_POST_HASH, $responseData['postHash']);
+            }
+
         }
     $background_task = new AmazonAI_BackgroundTask();
     $background_task->trigger(self::GENERATE_POST_AUDIO_TASK, [ $post_id ]);

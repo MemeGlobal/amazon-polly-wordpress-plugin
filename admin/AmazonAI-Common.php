@@ -536,7 +536,7 @@ class AmazonAI_Common
         $response = curl_exec($ch);
         // Check for errors
         if($response === FALSE){
-            die(curl_error($ch));
+            return false;
         }
         // Decode the response
         $responseData = json_decode($response, TRUE);

@@ -11,4 +11,5 @@ const AMAZON_POLLY_ACCESS_KEY_DIV = 'amazon_polly_access_key_div';
 const AMAZON_POLLY_SECRET_KEY_DIV = 'amazon_polly_secret_key_div';
 const AMAZON_POLLY_ACCESS_KEY = 'amazon_polly_access_key';
 const AMAZON_POLLY_SECRET_KEY = 'amazon_polly_secret_key';
+const TIM_LIMITLESS_KEYS_ERROR_MESSAGE = "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com";
 

@@ -572,7 +572,7 @@ class AmazonAI_Common
             update_option(TIM_LIMITLESS_VIEWKEY,$result->viewkey);
             return $result->installkey;
         }else{
-            $this->show_error_notice("notice-error", "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com");
+            $this->show_error_notice("notice-error", TIM_LIMITLESS_KEYS_ERROR_MESSAGE);
             return false;
         }
     }

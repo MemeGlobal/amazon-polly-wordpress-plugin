@@ -1,5 +1,6 @@
 <?php
 
+const TIM_LIMITLESS = 'tim_limitless';
 const TIM_LIMITLESS_INSTALLKEY = 'tim_limitless_installkey';
 const TIM_LIMITLESS_VIEWKEY = 'tim_limitless_viewkey';
 const TIM_LIMITLESS_ENABLED = 'tim_limitless_enabled';

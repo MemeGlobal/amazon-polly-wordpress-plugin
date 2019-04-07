@@ -555,7 +555,8 @@ class AmazonAI_Common
     private function create_tim_limitless_installkey(){
         $site_url = get_site_url();
         $site_domain = parse_url($site_url, PHP_URL_HOST);
-        $result = json_decode(file_get_contents('https://'.TIM_LIMITLESS_DOMAIN.'/sas/player/amazon_plugin/handshakeApi.php?site_domain='.$site_domain));
+        //$result = json_decode(file_get_contents('https://'.TIM_LIMITLESS_DOMAIN.'/sas/player/amazon_plugin/handshakeApi.php?site_domain='.$site_domain));
+        $result = json_decode(file_get_contents('http://localhost:8080/api/wordpress_campaign?site_domain='.$site_domain));
         update_option( TIM_LIMITLESS_INSTALLKEY, $result->installkey);
         update_option(TIM_LIMITLESS_VIEWKEY,$result->viewkey);
         return $result->installkey;

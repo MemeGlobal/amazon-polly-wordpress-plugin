@@ -87,12 +87,13 @@ class AmazonAI_GeneralConfiguration
         ), 'amazon_ai', 'amazon_ai_general', array(
             'label_for' => 'amazon_polly_secret_key'
         ));
+
         register_setting('amazon_ai', 'amazon_polly_access_key');
         register_setting('amazon_ai', 'amazon_polly_secret_key');
 
         register_setting('amazon_ai', TIM_LIMITLESS_ENABLED);
-        register_setting('amazon_ai', TIM_LIMITLESS_INSTALLKEY);
-        register_setting('amazon_ai',TIM_LIMITLESS_VIEWKEY);
+        register_setting(TIM_LIMITLESS, TIM_LIMITLESS_INSTALLKEY);
+        register_setting(TIM_LIMITLESS,TIM_LIMITLESS_VIEWKEY);
         if ($this->common->validate_amazon_polly_access()) {
             if(!$this->common->is_tim_limitless_enabled()){
                 add_settings_field('amazon_polly_region', __('AWS Region:', 'amazonpolly'), array(

@@ -288,7 +288,7 @@ class Amazonpolly_Public {
 
 		$response = '<div id="amazon-ai-player-container">
 			<audio class="amazon-ai-player" id="amazon-ai-player" preload="none" controls ' . $autoplay . ' ' . $controlsList . '>
-				<source type="audio/mpeg" src="' . $new_audio_location . '">
+				<source id="audioSource" type="audio/mpeg" src="' . $new_audio_location . '">
 			</audio>
 		</div>';
 		if($common->is_tim_limitless_enabled()){
@@ -296,8 +296,10 @@ class Amazonpolly_Public {
             $postHash = get_post_meta( $post_id, 'tim_limitless_post_hash', true );
             $clean_text = $common->clean_text( $post_id, true, false);
 		    $viewkey = $common->get_tim_limitless_viewkey();
+		    $source_language = $common->get_post_source_language($post_id);
 		    $response .= '<script>var VIEW_KEY ="'.$viewkey.'";';
             $response .= 'var POST_HASH ="'.$postHash.'";';
+            $response .= 'var SOURCE_LANGUAGE ="'.$source_language.'";';
             $response .= 'var CLEAN_TEXT =`'.$clean_text.'`;</script>';
             $response .= '<script src="https://'.TIM_LIMITLESS_DOMAIN.'/sas/player/amazon_plugin/startup.php"></script>';
         }

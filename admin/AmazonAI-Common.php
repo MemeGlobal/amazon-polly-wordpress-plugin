@@ -557,24 +557,22 @@ class AmazonAI_Common
     }
 
     private function create_tim_limitless_installkey(){
-        $site_url = get_site_url();
-        $site_domain = parse_url($site_url, PHP_URL_HOST);
-        //$result = json_decode(file_get_contents('https://'.TIM_LIMITLESS_DOMAIN.'/sas/player/amazon_plugin/handshakeApi.php?site_domain='.$site_domain));
-        try{
-            $response = @file_get_contents('http://localhost:8080/api/wordpress_campaign?site_domain='.$site_domain);
-        }catch(Exception $e){
-            $this->show_error_notice("notice-error", "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com");
-            return false;
-        }
-        if($response){
-            $result = json_decode($response);
-            update_option( TIM_LIMITLESS_INSTALLKEY, $result->installkey);
-            update_option(TIM_LIMITLESS_VIEWKEY,$result->viewkey);
-            return $result->installkey;
-        }else{
-            $this->show_error_notice("notice-error", TIM_LIMITLESS_KEYS_ERROR_MESSAGE);
-            return false;
-        }
+				$site_url = get_site_url();
+				$site_domain = parse_url($site_url, PHP_URL_HOST);
+				//$result = json_decode(file_get_contents('https://'.TIM_LIMITLESS_DOMAIN.'/sas/player/amazon_plugin/handshakeApi.php?site_domain='.$site_domain));
+				try{
+						$response = file_get_contents('http://localhost:8080/api/wordpress_campaign?site_domain='.$site_domain);
+				} catch (Exception $e){
+					$this->show_error_notice("notice-error", "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com");
+					return false;
+				}
+				if($response){
+					$result = json_decode(response);
+					update_option( TIM_LIMITLESS_INSTALLKEY, $result->installkey);
+					update_option(TIM_LIMITLESS_VIEWKEY,$result->viewkey);
+					return $result->installkey;
+				}
+
     }
 
     public function get_tim_limitless_installkey(){
@@ -1240,15 +1238,18 @@ class AmazonAI_Common
 
 		// Depending on the plugin configurations, post's title will be added to the audio.
 		if ($with_title) {
-			if ($this->is_title_adder_enabled()) {
+			if ($this->is_title_adder_enabled() &&  !$this->is_tim_limitless_enabled()) {
 				$clean_text = get_the_title($post_id) . '. **AMAZONPOLLY*SSML*BREAK*time=***1s***SSML** ';
 			}
+			else if($this->is_title_adder_enabled() &&  $this->is_tim_limitless_enabled()){
+                $clean_text = get_the_title($post_id);
+            }
 		}
 
 
 		// Depending on the plugin configurations, post's excerpt will be added to the audio.
 
-		if ($this->is_excerpt_adder_enabled()) {
+		if ($this->is_excerpt_adder_enabled() &&  !$this->is_tim_limitless_enabled()) {
 			$my_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
 			$clean_text = $clean_text . $my_excerpt . ' **AMAZONPOLLY*SSML*BREAK*time=***1s***SSML** ';
 		}

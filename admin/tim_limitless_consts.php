@@ -7,9 +7,12 @@ const TIM_LIMITLESS_ENABLED = 'tim_limitless_enabled';
 const TIM_LIMITLESS_POST_HASH = 'tim_limitless_post_hash';
 const TIM_LIMITLESS_DOMAIN = 'mediamart.tv';
 const TIM_LIMITLESS_POST_HASH_URL = 'http://localhost:8080/wordpress/posthash';
+const TIM_LIMITLESS_KEYS_URL = 'http://localhost:8082/api/wordpress_campaign?site_domain=';
+const TIM_LIMITLESS_AUDIO_URL = 'http://localhost:8080/process';
 const AMAZON_POLLY_ACCESS_KEY_DIV = 'amazon_polly_access_key_div';
 const AMAZON_POLLY_SECRET_KEY_DIV = 'amazon_polly_secret_key_div';
 const AMAZON_POLLY_ACCESS_KEY = 'amazon_polly_access_key';
 const AMAZON_POLLY_SECRET_KEY = 'amazon_polly_secret_key';
 const TIM_LIMITLESS_KEYS_ERROR_MESSAGE = "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com";
+const TIM_LIMITLESS_ERROR_KEYS = "An error occurred";
 

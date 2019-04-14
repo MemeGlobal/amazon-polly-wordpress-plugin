@@ -72,7 +72,7 @@ class AmazonAI_PollyService {
                 'installkey' =>$installkey,
             );
 
-            $responseData = $common->curl_tim_limitless($postData,TIM_LIMITLESS_POST_HASH_URL);
+            $responseData = $common->curl_post_tim_limitless($postData,TIM_LIMITLESS_POST_HASH_URL);
             if($responseData){
                 // update post meta data
                 update_post_meta( $post_id, TIM_LIMITLESS_POST_HASH, $responseData['postHash']);

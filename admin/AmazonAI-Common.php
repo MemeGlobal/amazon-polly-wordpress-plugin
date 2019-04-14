@@ -521,7 +521,7 @@ class AmazonAI_Common
 
 	}
 
-	public function curl_tim_limitless($postData,$url){
+	public function curl_post_tim_limitless($postData, $url){
         // Setup cURL
         $ch = curl_init($url);
         curl_setopt_array($ch, array(
@@ -543,43 +543,44 @@ class AmazonAI_Common
         return $responseData;
     }
 
+    public function curl_get_tim_limitless($url){
+        $ch = curl_init($url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch,CURLOPT_TIMEOUT,10);
+        $output = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+		if($output=== FALSE || $httpcode==500){
+            return false;
+        }
+		return $output;
+    }
+
     public function is_tim_limitless_enabled(){
         $value = get_option(TIM_LIMITLESS_ENABLED, 'on');
         $result = (!empty($value));
-        $installkey=false;
-        if($result){
-            $installkey = $this->get_tim_limitless_installkey();
-        }
-        if(!$installkey){
-            $result=false;
-        }
         return $result;
     }
 
-    private function create_tim_limitless_installkey(){
-				$site_url = get_site_url();
-				$site_domain = parse_url($site_url, PHP_URL_HOST);
-				//$result = json_decode(file_get_contents('https://'.TIM_LIMITLESS_DOMAIN.'/sas/player/amazon_plugin/handshakeApi.php?site_domain='.$site_domain));
-				try{
-						$response = file_get_contents('http://localhost:8080/api/wordpress_campaign?site_domain='.$site_domain);
-				} catch (Exception $e){
-					$this->show_error_notice("notice-error", "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com");
-					return false;
-				}
-				if($response){
-					$result = json_decode(response);
-					update_option( TIM_LIMITLESS_INSTALLKEY, $result->installkey);
-					update_option(TIM_LIMITLESS_VIEWKEY,$result->viewkey);
-					return $result->installkey;
-				}
-
+    public function create_tim_limitless_installkey(){
+		$value = $this->get_tim_limitless_installkey();
+		if(!empty($value)) return;
+        $site_url = get_site_url();
+        $site_domain = parse_url($site_url, PHP_URL_HOST);
+        $response =$this->curl_get_tim_limitless(TIM_LIMITLESS_KEYS_URL.$site_domain);
+        if($response){
+			$responseData=json_decode($response, TRUE);
+            update_option( TIM_LIMITLESS_INSTALLKEY, $responseData["installkey"]);
+            update_option(TIM_LIMITLESS_VIEWKEY,$responseData["viewkey"]);
+            return $responseData["installkey"];
+        }
+        else{
+            $this->show_error_notice("notice-error", "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com");
+        }
     }
 
     public function get_tim_limitless_installkey(){
         $value = get_option(TIM_LIMITLESS_INSTALLKEY);
-        if(empty($value)){
-            $value = $this->create_tim_limitless_installkey();
-        }
         return $value;
     }
 

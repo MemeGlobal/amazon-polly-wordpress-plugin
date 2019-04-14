@@ -164,8 +164,9 @@ class AmazonAI_GeneralConfiguration
             register_setting('amazon_ai', 'amazon_ai_logging');
 
         }
-
-
+        if($this->common->is_tim_limitless_enabled()){
+            $this->common->create_tim_limitless_installkey();
+        }
 
     }
 

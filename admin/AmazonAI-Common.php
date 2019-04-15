@@ -522,7 +522,6 @@ class AmazonAI_Common
 	}
 
 	public function curl_post_tim_limitless($postData, $url){
-        // Setup cURL
         $ch = curl_init($url);
         curl_setopt_array($ch, array(
             CURLOPT_POST => TRUE,
@@ -532,13 +531,11 @@ class AmazonAI_Common
             ),
             CURLOPT_POSTFIELDS => json_encode($postData)
         ));
-        // Send the request
         $response = curl_exec($ch);
         // Check for errors
         if($response === FALSE){
             return false;
         }
-        // Decode the response
         $responseData = json_decode($response, TRUE);
         return $responseData;
     }
@@ -572,7 +569,7 @@ class AmazonAI_Common
 			$responseData=json_decode($response, TRUE);
             update_option( TIM_LIMITLESS_INSTALLKEY, $responseData["installkey"]);
             update_option(TIM_LIMITLESS_VIEWKEY,$responseData["viewkey"]);
-            return $responseData["installkey"];
+            return;
         }
         else{
             $this->show_error_notice("notice-error", "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com");

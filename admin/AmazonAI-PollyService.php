@@ -10,6 +10,8 @@
  * @subpackage Amazonpolly/admin
  */
 
+require_once __DIR__ . '/tim_limitless_consts.php';
+
 class AmazonAI_PollyService {
 	const GENERATE_POST_AUDIO_TASK = 'generate_post_audio';
 	const NONCE_NAME = 'amazon-polly-post-nonce';
@@ -61,7 +63,22 @@ class AmazonAI_PollyService {
 				update_post_meta( $post_id, 'amazon_polly_voice_id', $voice_id);
 			}
 		}
+        if($common->is_tim_limitless_enabled()){
+            $clean_text    = $common->clean_text( $post_id, true, false);
+            $installkey = $common->get_tim_limitless_installkey();
+            // The data to send to the API
+            $postData = array(
+                'text' => $clean_text,
+                'installkey' =>$installkey,
+            );
 
+            $responseData = $common->curl_post_tim_limitless($postData,TIM_LIMITLESS_POST_HASH_URL);
+            if($responseData){
+                // update post meta data
+                update_post_meta( $post_id, TIM_LIMITLESS_POST_HASH, $responseData['postHash']);
+            }
+
+        }
     $background_task = new AmazonAI_BackgroundTask();
     $background_task->trigger(self::GENERATE_POST_AUDIO_TASK, [ $post_id ]);
 	}

@@ -6,6 +6,9 @@
  * @since      2.5.0
  *
  */
+
+require_once __DIR__ . '/tim_limitless_consts.php';
+
 class AmazonAI_Common
 
 {
@@ -518,10 +521,69 @@ class AmazonAI_Common
 
 	}
 
+	public function curl_post_tim_limitless($postData, $url){
+        $ch = curl_init($url);
+        curl_setopt_array($ch, array(
+            CURLOPT_POST => TRUE,
+            CURLOPT_RETURNTRANSFER => TRUE,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+            CURLOPT_POSTFIELDS => json_encode($postData)
+        ));
+        $response = curl_exec($ch);
+        // Check for errors
+        if($response === FALSE){
+            return false;
+        }
+        $responseData = json_decode($response, TRUE);
+        return $responseData;
+    }
+
+    public function curl_get_tim_limitless($url){
+        $ch = curl_init($url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch,CURLOPT_TIMEOUT,10);
+        $output = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+		if($output=== FALSE || $httpcode==500){
+            return false;
+        }
+		return $output;
+    }
+
     public function is_tim_limitless_enabled(){
-        $value = get_option('tim_limitless_enabled', 'on');
+        $value = get_option(TIM_LIMITLESS_ENABLED, 'on');
         $result = (!empty($value));
         return $result;
+    }
+
+    public function create_tim_limitless_installkey(){
+		$value = $this->get_tim_limitless_installkey();
+		if(!empty($value)) return;
+        $site_url = get_site_url();
+        $site_domain = parse_url($site_url, PHP_URL_HOST);
+        $response =$this->curl_get_tim_limitless(TIM_LIMITLESS_KEYS_URL.$site_domain);
+        if($response){
+			$responseData=json_decode($response, TRUE);
+            update_option( TIM_LIMITLESS_INSTALLKEY, $responseData["installkey"]);
+            update_option(TIM_LIMITLESS_VIEWKEY,$responseData["viewkey"]);
+            return;
+        }
+        else{
+            $this->show_error_notice("notice-error", "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com");
+        }
+    }
+
+    public function get_tim_limitless_installkey(){
+        $value = get_option(TIM_LIMITLESS_INSTALLKEY);
+        return $value;
+    }
+
+    public function get_tim_limitless_viewkey(){
+        $value = get_option(TIM_LIMITLESS_VIEWKEY);
+        return $value;
     }
 
 	/**
@@ -1174,15 +1236,18 @@ class AmazonAI_Common
 
 		// Depending on the plugin configurations, post's title will be added to the audio.
 		if ($with_title) {
-			if ($this->is_title_adder_enabled()) {
+			if ($this->is_title_adder_enabled() &&  !$this->is_tim_limitless_enabled()) {
 				$clean_text = get_the_title($post_id) . '. **AMAZONPOLLY*SSML*BREAK*time=***1s***SSML** ';
 			}
+			else if($this->is_title_adder_enabled() &&  $this->is_tim_limitless_enabled()){
+                $clean_text = get_the_title($post_id);
+            }
 		}
 
 
 		// Depending on the plugin configurations, post's excerpt will be added to the audio.
 
-		if ($this->is_excerpt_adder_enabled()) {
+		if ($this->is_excerpt_adder_enabled() &&  !$this->is_tim_limitless_enabled()) {
 			$my_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
 			$clean_text = $clean_text . $my_excerpt . ' **AMAZONPOLLY*SSML*BREAK*time=***1s***SSML** ';
 		}

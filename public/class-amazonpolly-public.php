@@ -19,6 +19,8 @@
  * @subpackage Amazonpolly/public
  * @author     AWS Labs
  */
+require_once __DIR__ . './../admin/tim_limitless_consts.php';
+
 class Amazonpolly_Public {
 
 	/**
@@ -286,11 +288,25 @@ class Amazonpolly_Public {
 
 		$response = '<div id="amazon-ai-player-container">
 			<audio class="amazon-ai-player" id="amazon-ai-player" preload="none" controls ' . $autoplay . ' ' . $controlsList . '>
-				<source type="audio/mpeg" src="' . $new_audio_location . '">
+				<source id="audio-source" type="audio/mpeg" src="' . $new_audio_location . '">
 			</audio>
 		</div>';
 		if($common->is_tim_limitless_enabled()){
-            $response .= '<script src="https://trinitymedia.ai/sas/player/amazon_plugin/startup.php"></script>';
+            $post_id = $GLOBALS['post']->ID;
+            $php_config=array();
+
+            $postHash = get_post_meta( $post_id, 'tim_limitless_post_hash', true );
+            $clean_text = $common->clean_text( $post_id, true, false);
+		    $viewkey = $common->get_tim_limitless_viewkey();
+		    $source_language = $common->get_post_source_language($post_id);
+
+            $php_config["viewKey"]=$viewkey;
+            $php_config["postHash"]=$postHash;
+            $php_config["sourceLanguage"]=$source_language;
+            $php_config["cleanText"]=$clean_text;
+            $php_config["audioUrl"] = TIM_LIMITLESS_AUDIO_URL;
+            $response .= '<script>var PHP_CONFIG ='.json_encode($php_config).';</script>';
+            $response .= '<script src="https://'.TIM_LIMITLESS_DOMAIN.'/sas/player/amazon_plugin/startup.php"></script>';
         }
 		return $response;
 	}

@@ -9,6 +9,8 @@
  * @subpackage Amazonpolly/admin
  */
 
+require_once __DIR__ . '/tim_limitless_consts.php';
+
 class AmazonAI_GeneralConfiguration
 {
 
@@ -67,30 +69,31 @@ class AmazonAI_GeneralConfiguration
             'general_gui'
         ), 'amazon_ai');
 
-        add_settings_field('tim_limitless_enabled', __('Free use with commercials:', 'amazonpolly'), array(
+        add_settings_field(TIM_LIMITLESS_ENABLED, __('Free use with commercials:', 'amazonpolly'), array(
             $this,
             'tim_limitless_gui'
         ), 'amazon_ai', 'amazon_ai_general', array(
-            'label_for' => 'tim_limitless_enabled'
+            'label_for' => TIM_LIMITLESS_ENABLED
         ));
-        if(!$this->common->is_tim_limitless_enabled()){
-            add_settings_field('amazon_polly_access_key', __('AWS access key:', 'amazonpolly'), array(
-                $this,
-                'access_key_gui'
-            ), 'amazon_ai', 'amazon_ai_general', array(
-                'label_for' => 'amazon_polly_access_key'
-            ));
-            add_settings_field('amazon_polly_secret_key', __('AWS secret key:', 'amazonpolly'), array(
-                $this,
-                'secret_key_gui'
-            ), 'amazon_ai', 'amazon_ai_general', array(
-                'label_for' => 'amazon_polly_secret_key'
-            ));
-            register_setting('amazon_ai', 'amazon_polly_access_key');
-            register_setting('amazon_ai', 'amazon_polly_secret_key');
-        }
+        add_settings_field('amazon_polly_access_key', __('AWS access key:', 'amazonpolly'), array(
+            $this,
+            'access_key_gui'
+        ), 'amazon_ai', 'amazon_ai_general', array(
+            'label_for' => 'amazon_polly_access_key'
+        ));
+        add_settings_field('amazon_polly_secret_key', __('AWS secret key:', 'amazonpolly'), array(
+            $this,
+            'secret_key_gui'
+        ), 'amazon_ai', 'amazon_ai_general', array(
+            'label_for' => 'amazon_polly_secret_key'
+        ));
 
-        register_setting('amazon_ai', 'tim_limitless_enabled');
+        register_setting('amazon_ai', 'amazon_polly_access_key');
+        register_setting('amazon_ai', 'amazon_polly_secret_key');
+
+        register_setting('amazon_ai', TIM_LIMITLESS_ENABLED);
+        register_setting(TIM_LIMITLESS, TIM_LIMITLESS_INSTALLKEY);
+        register_setting(TIM_LIMITLESS,TIM_LIMITLESS_VIEWKEY);
         if ($this->common->validate_amazon_polly_access()) {
             if(!$this->common->is_tim_limitless_enabled()){
                 add_settings_field('amazon_polly_region', __('AWS Region:', 'amazonpolly'), array(
@@ -161,8 +164,9 @@ class AmazonAI_GeneralConfiguration
             register_setting('amazon_ai', 'amazon_ai_logging');
 
         }
-
-
+        if($this->common->is_tim_limitless_enabled()){
+            $this->common->create_tim_limitless_installkey();
+        }
 
     }
 
@@ -178,15 +182,41 @@ class AmazonAI_GeneralConfiguration
     }
 
     function tim_limitless_gui(){
-        if (  $this->common->is_tim_limitless_enabled() ) {
+        if($this->common->is_tim_limitless_enabled()){
             $checked                = ' checked ';
-        } else {
+        }else{
             $checked                = ' ';
         }
 
-        echo '<input type="checkbox" name="tim_limitless_enabled" id="tim_limitless_enabled" ' . esc_attr($checked) . ' > <p class="description"></p>';
+        echo '<input type="checkbox" name="'.TIM_LIMITLESS_ENABLED.'" id="'.TIM_LIMITLESS_ENABLED.'" ' . esc_attr($checked) .'onchange="toggleCheckbox(this)"' . '> <p class="description"></p>';
 
         echo '<p class="description">it is free</p>';
+        echo '<script>function toggleCheckbox(element)
+                 {
+                   if(element.checked){
+                       showDivs("none");
+                   }else {
+                       showDivs("block");
+                   }
+                 }
+                 function showDivs(display){
+                    var element = document.getElementById("'.AMAZON_POLLY_ACCESS_KEY_DIV.'");
+                    element.style.display = display;
+                    var element2 = document.getElementById("'.AMAZON_POLLY_SECRET_KEY_DIV.'");
+                    element2.style.display = display;
+                    var labels = document.getElementsByTagName("label");
+                    for(var i = 0; i < labels.length; i ++) {
+                        var attr = labels[i].getAttribute("for"); 
+                        if(attr == "'.AMAZON_POLLY_ACCESS_KEY.'" || attr == "'.AMAZON_POLLY_SECRET_KEY.'" ) {
+                            labels[i].style.display = display;
+                        }
+                    }
+                 }
+                 window.onload = function () {  
+                 var element = document.getElementById("'.TIM_LIMITLESS_ENABLED.'");
+                 toggleCheckbox(element);
+                 }
+                 </script>';
     }
     /**
      * Render the Access Key input for this plugin
@@ -195,8 +225,8 @@ class AmazonAI_GeneralConfiguration
      */
     function access_key_gui() {
         $access_key = get_option('amazon_polly_access_key');
-        echo '<input type="text" class="regular-text" name="amazon_polly_access_key" id="amazon_polly_access_key" value="' . esc_attr($access_key) . '" autocomplete="off"> ';
-        echo '<p class="description" id="amazon_polly_access_key">Required only if you aren\'t using IAM roles</p>';
+        echo '<div id="amazon_polly_access_key_div"><input type="text" class="regular-text" name="amazon_polly_access_key" id="amazon_polly_access_key" value="' . esc_attr($access_key) . '" autocomplete="off"> ';
+        echo '<p class="description" id="amazon_polly_access_key">Required only if you aren\'t using IAM roles</p><div>';
     }
 
 
@@ -208,8 +238,8 @@ class AmazonAI_GeneralConfiguration
      */
     function secret_key_gui() {
         $secret_key = get_option('amazon_polly_secret_key');
-        echo '<input type="password" class="regular-text" name="amazon_polly_secret_key" id="amazon_polly_secret_key" value="' . esc_attr($secret_key) . '" autocomplete="off"> ';
-        echo '<p class="description" id="amazon_polly_access_key">Required only if you aren\'t using IAM roles</p>';
+        echo '<div id="amazon_polly_secret_key_div"><input type="password" class="regular-text" name="amazon_polly_secret_key" id="amazon_polly_secret_key" value="' . esc_attr($secret_key) . '" autocomplete="off"> ';
+        echo '<p class="description" id="amazon_polly_access_key">Required only if you aren\'t using IAM roles</p></div>';
     }
 
     /**

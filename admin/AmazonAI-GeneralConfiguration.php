@@ -191,31 +191,30 @@ class AmazonAI_GeneralConfiguration
         echo '<input type="checkbox" name="'.TIM_LIMITLESS_ENABLED.'" id="'.TIM_LIMITLESS_ENABLED.'" ' . esc_attr($checked) .'onchange="toggleCheckbox(this)"' . '> <p class="description"></p>';
 
         echo '<p class="description">it is free</p>';
-        echo '<script>function toggleCheckbox(element)
+        echo '<script> 
+                function toggleCheckbox(element)
                  {
+                   var divsArray = ["'.AMAZON_POLLY_ACCESS_KEY_DIV.'","'.AMAZON_POLLY_SECRET_KEY_DIV.'"];
                    if(element.checked){
-                       showDivs("none");
+                       showDivs(divsArray,"none");
                    }else {
-                       showDivs("block");
+                       showDivs(divsArray, "");
                    }
                  }
-                 function showDivs(display){
-                    var element = document.getElementById("'.AMAZON_POLLY_ACCESS_KEY_DIV.'");
-                    element.style.display = display;
-                    var element2 = document.getElementById("'.AMAZON_POLLY_SECRET_KEY_DIV.'");
-                    element2.style.display = display;
-                    var labels = document.getElementsByTagName("label");
-                    for(var i = 0; i < labels.length; i ++) {
-                        var attr = labels[i].getAttribute("for"); 
-                        if(attr == "'.AMAZON_POLLY_ACCESS_KEY.'" || attr == "'.AMAZON_POLLY_SECRET_KEY.'" ) {
-                            labels[i].style.display = display;
-                        }
-                    }
+                 
+                 function showDivs(elements,display){
+                   for(var i=0;i<elements.length;i++){
+                       var element = document.getElementById(elements[i]);
+                       var tr=element.parentElement.parentElement;
+                        tr.style.display = display;
+                   }
                  }
+                 
                  window.onload = function () {  
-                 var element = document.getElementById("'.TIM_LIMITLESS_ENABLED.'");
-                 toggleCheckbox(element);
+                   var element = document.getElementById("'.TIM_LIMITLESS_ENABLED.'");
+                   toggleCheckbox(element);
                  }
+                 
                  </script>';
     }
     /**

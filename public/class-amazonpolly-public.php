@@ -298,6 +298,12 @@ class Amazonpolly_Public {
             $php_config=array();
 
             $postHash = get_post_meta( $post_id, 'tim_limitless_post_hash', true );
+            $gender = get_post_meta($post_id,TIM_LIMITLESS_GENDER_ID,true);
+            if($gender=="male"){
+                $gender="m";
+            }else{
+                $gender="f";
+            }
             $clean_text = $common->clean_text( $post_id, true, false);
 		    $viewkey = $common->get_tim_limitless_viewkey();
 		    $source_language = $common->get_post_source_language($post_id);
@@ -307,6 +313,8 @@ class Amazonpolly_Public {
             $php_config["sourceLanguage"]=$source_language;
             $php_config["cleanText"]=$clean_text;
             $php_config["audioUrl"] = TIM_LIMITLESS_AUDIO_URL;
+            $php_config["gender"] = $gender;
+            $php_config["speed"] = $common->get_audio_speed()/100;
             $response .= '<script>var PHP_CONFIG ='.json_encode($php_config).';</script>';
             $response .= '<script src="'.TIM_LIMITLESS_STARTUP.'"></script>';
         }

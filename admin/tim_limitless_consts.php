@@ -6,6 +6,7 @@ const TIM_LIMITLESS_VIEWKEY = 'tim_limitless_viewkey';
 const TIM_LIMITLESS_ENABLED = 'tim_limitless_enabled';
 const TIM_LIMITLESS_POST_HASH = 'tim_limitless_post_hash';
 const TIM_LIMITLESS_STARTUP = "https://trinitymedia.ai/sas/player/amazon_plugin/startup.php";
+//const TIM_LIMITLESS_STARTUP = "https://mediamart.tv/sas/player/amazon_plugin/startup.php";
 const TIM_LIMITLESS_AUDIO_SILENCE = "https://vd.trinitymedia.ai/loading.mp3";
 const TIM_LIMITLESS_POST_HASH_URL = 'https://audio.thetimmedia.com/wordpress/posthash';
 const TIM_LIMITLESS_KEYS_URL = 'http://r2v2.memeglobal.com/api/wordpress_campaign?site_domain=';

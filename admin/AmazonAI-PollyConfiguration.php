@@ -8,7 +8,7 @@
  * @package    Amazonpolly
  * @subpackage Amazonpolly/admin
  */
-
+require_once __DIR__ . '/tim_limitless_consts.php';
 class AmazonAI_PollyConfiguration {
 
   private $common;
@@ -63,6 +63,9 @@ class AmazonAI_PollyConfiguration {
                     add_settings_field( 'amazon_polly_ssml', __( 'Enable SSML support:', 'amazonpolly' ), array( $this, 'ssml_gui' ), 'amazon_ai_polly', 'amazon_ai_polly', array( 'label_for' => 'amazon_polly_ssml' ) );
                     add_settings_field( 'amazon_polly_lexicons', __( 'Lexicons:', 'amazonpolly' ), array( $this, 'lexicons_gui' ), 'amazon_ai_polly', 'amazon_ai_polly', array( 'label_for' => 'amazon_polly_lexicons' ) );
                 }
+                if($this->common->is_tim_limitless_enabled()){
+                    add_settings_field( 'tim_limitless_gender_id', __( 'Gender:', 'amazonpolly' ), array( $this, 'tim_limitless_gender_gui' ), 'amazon_ai_polly', 'amazon_ai_polly', array( 'label_for' => 'tim_limitless_gender_id' ) );
+                }
 
         			add_settings_field( 'amazon_polly_speed', __( 'Audio speed [%]:', 'amazonpolly' ), array( $this, 'audio_speed_gui' ), 'amazon_ai_polly', 'amazon_ai_polly', array( 'label_for' => 'amazon_polly_speed' ) );
 
@@ -90,6 +93,9 @@ class AmazonAI_PollyConfiguration {
                     register_setting('amazon_ai_polly', 'amazon_polly_auto_breaths');
                     register_setting('amazon_ai_polly', 'amazon_polly_ssml');
                     register_setting('amazon_ai_polly', 'amazon_polly_lexicons');
+                }
+                if($this->common->is_tim_limitless_enabled()){
+                    register_setting( 'amazon_ai_polly',TIM_LIMITLESS_GENDER_ID);
                 }
 
         			register_setting('amazon_ai_polly', 'amazon_polly_speed');
@@ -442,6 +448,24 @@ public function playerlabel_gui() {
 
 
 	}
+
+	public function tim_limitless_gender_gui(){
+	    $genders =  $this->common->get_tim_limitless_genders();
+        $selected_gender = get_option(TIM_LIMITLESS_GENDER_ID);
+        if(empty($selected_gender)){
+            $selected_gender = $genders[1];
+        }
+
+        echo '<select name="'.TIM_LIMITLESS_GENDER_ID.'" id="'.TIM_LIMITLESS_GENDER_ID.'">';
+        foreach ($genders as $gender) {
+            if($gender==$selected_gender){
+                echo '<option value='.$gender.' selected="selected">'.$gender.'</option>';
+            }else{
+                echo '<option value='.$gender.'>'.$gender.'</option>';
+            }
+        }
+    }
+
 
 	/**
 	 * Render the Access Key input for this plugin

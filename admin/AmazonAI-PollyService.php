@@ -62,6 +62,12 @@ class AmazonAI_PollyService {
 				$voice_id = sanitize_text_field(wp_unslash($_POST['amazon_polly_voice_id']));
 				update_post_meta( $post_id, 'amazon_polly_voice_id', $voice_id);
 			}
+
+            // Update post gender ID
+            if ( isset( $_POST[TIM_LIMITLESS_GENDER_ID]) ) {
+                $gender_id = sanitize_text_field(wp_unslash($_POST[TIM_LIMITLESS_GENDER_ID]));
+                update_post_meta( $post_id, TIM_LIMITLESS_GENDER_ID, $gender_id);
+            }
 		}
         if($common->is_tim_limitless_enabled()){
             $clean_text    = $common->clean_text( $post_id, true, false);

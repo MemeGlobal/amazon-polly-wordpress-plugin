@@ -704,6 +704,20 @@ class AmazonAI_Common
 		return $voice_id;
 	}
 
+	public function get_gender_id(){
+        $gender_id = get_option(TIM_LIMITLESS_GENDER_ID);
+        if (empty($gender_id)) {
+            $gender_id = 'female';
+            update_option(TIM_LIMITLESS_GENDER_ID, $gender_id);
+        }
+
+        return $gender_id;
+    }
+    public function get_tim_limitless_genders(){
+        $genders = array("female","male");
+        return $genders;
+    }
+
 	/**
 	 * Returns the name of the AWS region, which should be used by the plugin.
 	 *

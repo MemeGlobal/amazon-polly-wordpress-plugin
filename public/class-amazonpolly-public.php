@@ -297,14 +297,18 @@ class Amazonpolly_Public {
             $post_id = $GLOBALS['post']->ID;
             $php_config=array();
 
-            $postHash = get_post_meta( $post_id, 'tim_limitless_post_hash', true );
+            if($common->is_title_adder_enabled()){
+                $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_WITH_TITLE, true );
+            }else{
+                $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_WITHOUT_TITLE, true );
+            }
             $gender = get_post_meta($post_id,TIM_LIMITLESS_GENDER_ID,true);
             if($gender=="male"){
                 $gender="m";
             }else{
                 $gender="f";
             }
-            $clean_text = $common->clean_text( $post_id, true, false);
+            $clean_text = $common->clean_text( $post_id, $common->is_title_adder_enabled(), false);
 		    $viewkey = $common->get_tim_limitless_viewkey();
 		    $source_language = $common->get_post_source_language($post_id);
 

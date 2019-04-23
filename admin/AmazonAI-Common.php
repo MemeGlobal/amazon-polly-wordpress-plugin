@@ -1253,7 +1253,7 @@ class AmazonAI_Common
 			if ($this->is_title_adder_enabled() &&  !$this->is_tim_limitless_enabled()) {
 				$clean_text = get_the_title($post_id) . '. **AMAZONPOLLY*SSML*BREAK*time=***1s***SSML** ';
 			}
-			else if($this->is_title_adder_enabled() &&  $this->is_tim_limitless_enabled()){
+			else if($this->is_tim_limitless_enabled()){
                 $clean_text = get_the_title($post_id);
             }
 		}

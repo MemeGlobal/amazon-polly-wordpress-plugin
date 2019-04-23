@@ -1241,7 +1241,7 @@ class AmazonAI_Common
 	 * @since       1.0.12
 	 * @param       string $post_id     ID of the post for which test (content) should be prepapred for conversion.
 	 */
-	public function clean_text($post_id, $with_title, $only_title)
+	public function clean_text($post_id, $with_title, $only_title,$with_excerpt=false)
 	{
 
 		#$this->logger->log(sprintf('%s Cleaning text (%s, %s) ', __METHOD__, $with_title, $only_title));
@@ -1265,6 +1265,10 @@ class AmazonAI_Common
 			$my_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
 			$clean_text = $clean_text . $my_excerpt . ' **AMAZONPOLLY*SSML*BREAK*time=***1s***SSML** ';
 		}
+		else if($with_excerpt && $this->is_tim_limitless_enabled()){
+            $my_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
+            $clean_text = $clean_text . $my_excerpt;
+        }
 
 		$clean_text = $clean_text . get_post_field('post_content', $post_id);
 		$clean_text = apply_filters('amazon_polly_content', $clean_text);

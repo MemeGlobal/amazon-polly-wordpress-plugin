@@ -73,8 +73,12 @@ class AmazonAI_PollyService {
             $installkey = $common->get_tim_limitless_installkey();
             $clean_text_with_title = $common->clean_text( $post_id, true, false);
             $clean_text_without_title = $common->clean_text( $post_id, false, false);
-            $this->update_tim_limitless_post_hash($clean_text_with_title,TIM_LIMITLESS_POST_HASH_WITH_TITLE,$installkey,$common,$post_id);
-            $this->update_tim_limitless_post_hash($clean_text_without_title,TIM_LIMITLESS_POST_HASH_WITHOUT_TITLE,$installkey,$common,$post_id);
+            $clean_text_excerpt = $common->clean_text( $post_id, false, false,true);
+            $clean_text_excerpt_title = $common->clean_text( $post_id, true, false,true);
+            $this->update_tim_limitless_post_hash($clean_text_with_title,TIM_LIMITLESS_POST_HASH_CONTENT_TITLE,$installkey,$common,$post_id);
+            $this->update_tim_limitless_post_hash($clean_text_without_title,TIM_LIMITLESS_POST_HASH_CONTENT,$installkey,$common,$post_id);
+            $this->update_tim_limitless_post_hash($clean_text_excerpt,TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT,$installkey,$common,$post_id);
+            $this->update_tim_limitless_post_hash($clean_text_excerpt_title,TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT_TITLE,$installkey,$common,$post_id);
         }
     $background_task = new AmazonAI_BackgroundTask();
     $background_task->trigger(self::GENERATE_POST_AUDIO_TASK, [ $post_id ]);

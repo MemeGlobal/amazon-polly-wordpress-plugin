@@ -315,6 +315,7 @@ class Amazonpolly_Public {
             $php_config["audioUrl"] = TIM_LIMITLESS_AUDIO_URL;
             $php_config["gender"] = $gender;
             $php_config["speed"] = $common->get_audio_speed()/100;
+            $php_config["silence_file"] = TIM_LIMITLESS_AUDIO_SILENCE;
             $response .= '<script>var PHP_CONFIG ='.json_encode($php_config).';</script>';
             $response .= '<script src="'.TIM_LIMITLESS_STARTUP.'"></script>';
         }

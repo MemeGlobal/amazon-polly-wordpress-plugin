@@ -129,8 +129,11 @@ class AmazonAI_Common
 	}
 
 	public function get_language_name($provided_langauge_code) {
-
-		foreach ($this->languages as $language_data) {
+        $languages=$this->languages;
+        if($this->is_tim_limitless_enabled()){
+            $languages=$this->get_languages_array_tim_limitless();
+        }
+		foreach ($languages as $language_data) {
 			$language_code = $language_data['code'];
 			$language_name = $language_data['name'];
 
@@ -144,14 +147,19 @@ class AmazonAI_Common
 
 	public function get_all_languages() {
 		$supported_languages = [];
-
-		foreach ($this->languages as $language_data) {
+		$languages=$this->languages;
+		if($this->is_tim_limitless_enabled()){
+		    $languages=$this->get_languages_array_tim_limitless();
+        }
+		foreach ($languages as $language_data) {
 			$language_code = $language_data['code'];
 			array_push($supported_languages, $language_code);
 		}
 
 		return $supported_languages;
 	}
+
+
 
 	public function get_all_translable_languages() {
 		$supported_languages = [];
@@ -196,8 +204,11 @@ class AmazonAI_Common
 
 
 		$supported_languages = [];
-
-		foreach ($this->languages as $language_data) {
+        $languages=$this->languages;
+        if($this->is_tim_limitless_enabled()){
+            $languages=$this->get_languages_array_tim_limitless();
+        }
+		foreach ($languages as $language_data) {
 			$language_code = $language_data['code'];
 			$is_language_supported = $language_data['polly'];
 
@@ -584,6 +595,16 @@ class AmazonAI_Common
     public function get_tim_limitless_viewkey(){
         $value = get_option(TIM_LIMITLESS_VIEWKEY);
         return $value;
+    }
+
+    public function get_languages_array_tim_limitless(){
+        $result = $this->curl_get_tim_limitless(TIM_LIMITLESS_LANGUAGES.$this->get_tim_limitless_installkey());
+        $tim_langs = json_decode($result);
+        $languages = array();
+        foreach ($tim_langs as $key => $lang){
+            $languages[] = ['code' => $key, 'name' => $lang->name, 'transable' => '1', 'polly' => '1'];
+        }
+        return $languages;
     }
 
 	/**

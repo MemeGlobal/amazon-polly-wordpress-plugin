@@ -299,10 +299,10 @@ class Amazonpolly_Public {
 
             $postHash = get_post_meta( $post_id, 'tim_limitless_post_hash', true );
             $gender = get_post_meta($post_id,TIM_LIMITLESS_GENDER_ID,true);
-            if($gender=="male"){
-                $gender="m";
+            if($gender == GENDER_LABEL_MALE){
+                $gender = "m";
             }else{
-                $gender="f";
+                $gender = "f";
             }
             $clean_text = $common->clean_text( $post_id, true, false);
 		    $viewkey = $common->get_tim_limitless_viewkey();

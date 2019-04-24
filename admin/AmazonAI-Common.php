@@ -707,14 +707,14 @@ class AmazonAI_Common
 	public function get_gender_id(){
         $gender_id = get_option(TIM_LIMITLESS_GENDER_ID);
         if (empty($gender_id)) {
-            $gender_id = 'female';
+            $gender_id = GENDER_LABEL_FEMALE;
             update_option(TIM_LIMITLESS_GENDER_ID, $gender_id);
         }
 
         return $gender_id;
     }
     public function get_tim_limitless_genders(){
-        $genders = array("female","male");
+        $genders = array(GENDER_LABEL_FEMALE,GENDER_LABEL_MALE);
         return $genders;
     }
 

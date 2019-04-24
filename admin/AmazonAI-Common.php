@@ -406,12 +406,17 @@ class AmazonAI_Common
 	}
 
 	public function is_audio_download_enabled() {
-			$value = $this->checked_validator('amazon_ai_download_enabled');
-			if ('checked' == trim($value)) {
-				return true;
-			} else {
-				return false;
-			}
+	    if($this->is_tim_limitless_enabled()){
+	        return false;
+        }else{
+            $value = $this->checked_validator('amazon_ai_download_enabled');
+            if ('checked' == trim($value)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
 	}
 
 	/**

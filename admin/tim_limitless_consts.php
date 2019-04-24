@@ -18,3 +18,5 @@ const AMAZON_POLLY_SECRET_KEY = 'amazon_polly_secret_key';
 const TIM_LIMITLESS_KEYS_ERROR_MESSAGE = "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com";
 const TIM_LIMITLESS_GENDER_ID = 'tim_limitless_gender_id';
 
+const GENDER_LABEL_FEMALE = 'Female';
+const GENDER_LABEL_MALE = 'Male';

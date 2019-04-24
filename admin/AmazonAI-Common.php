@@ -39,6 +39,7 @@ class AmazonAI_Common
 		['code' => 'cy', 'name' => 'Welsh', 'transable' => '', 'polly' => '1']
 	];
 
+
 	public function prepare_paragraphs($post_id) {
 
 		$clean_content = '';
@@ -129,11 +130,7 @@ class AmazonAI_Common
 	}
 
 	public function get_language_name($provided_langauge_code) {
-        $languages=$this->languages;
-        if($this->is_tim_limitless_enabled()){
-            $languages=$this->get_languages_array_tim_limitless();
-        }
-		foreach ($languages as $language_data) {
+		foreach ($this->languages as $language_data) {
 			$language_code = $language_data['code'];
 			$language_name = $language_data['name'];
 
@@ -147,11 +144,8 @@ class AmazonAI_Common
 
 	public function get_all_languages() {
 		$supported_languages = [];
-		$languages=$this->languages;
-		if($this->is_tim_limitless_enabled()){
-		    $languages=$this->get_languages_array_tim_limitless();
-        }
-		foreach ($languages as $language_data) {
+
+		foreach ($this->languages as $language_data) {
 			$language_code = $language_data['code'];
 			array_push($supported_languages, $language_code);
 		}
@@ -204,11 +198,8 @@ class AmazonAI_Common
 
 
 		$supported_languages = [];
-        $languages=$this->languages;
-        if($this->is_tim_limitless_enabled()){
-            $languages=$this->get_languages_array_tim_limitless();
-        }
-		foreach ($languages as $language_data) {
+
+		foreach ($this->languages as $language_data) {
 			$language_code = $language_data['code'];
 			$is_language_supported = $language_data['polly'];
 
@@ -251,6 +242,9 @@ class AmazonAI_Common
 	 */
 	public function __construct() {
 		$this->logger = new AmazonAI_Logger();
+		if($this->is_tim_limitless_enabled()){
+		    $this->languages=$this->get_languages_array_tim_limitless();
+        }
 	}
 
 	public function init() {

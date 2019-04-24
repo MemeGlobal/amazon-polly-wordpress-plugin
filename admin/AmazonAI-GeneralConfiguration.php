@@ -69,12 +69,7 @@ class AmazonAI_GeneralConfiguration
             'general_gui'
         ), 'amazon_ai');
 
-        add_settings_field(TIM_LIMITLESS_ENABLED, __('Free use with commercials:', 'amazonpolly'), array(
-            $this,
-            'tim_limitless_gui'
-        ), 'amazon_ai', 'amazon_ai_general', array(
-            'label_for' => TIM_LIMITLESS_ENABLED
-        ));
+
         add_settings_field('amazon_polly_access_key', __('AWS access key:', 'amazonpolly'), array(
             $this,
             'access_key_gui'
@@ -86,6 +81,14 @@ class AmazonAI_GeneralConfiguration
             'secret_key_gui'
         ), 'amazon_ai', 'amazon_ai_general', array(
             'label_for' => 'amazon_polly_secret_key'
+        ));
+
+
+        add_settings_field(TIM_LIMITLESS_ENABLED, __('Free Limitless:', 'amazonpolly'), array(
+            $this,
+            'tim_limitless_gui'
+        ), 'amazon_ai', 'amazon_ai_general', array(
+            'label_for' => TIM_LIMITLESS_ENABLED
         ));
 
         register_setting('amazon_ai', 'amazon_polly_access_key');
@@ -142,12 +145,17 @@ class AmazonAI_GeneralConfiguration
             ), 'amazon_ai', 'amazon_ai_other', array(
                 'label_for' => 'amazon_polly_posttypes'
             ));
-            add_settings_field('amazon_polly_poweredby', __('Display "Powered by AWS":', 'amazonpolly'), array(
+
+            $powered_string = '"Powered by AWS';
+            if ($this->common->is_tim_limitless_enabled()) $powered_string .= ' & TrinityAudio"';
+            else $powered_string .= '"';
+            add_settings_field('amazon_polly_poweredby', __('Display '.$powered_string.':', 'amazonpolly'), array(
                 $this,
                 'poweredby_gui'
             ), 'amazon_ai', 'amazon_ai_other', array(
                 'label_for' => 'amazon_polly_poweredby'
             ));
+
             add_settings_field('amazon_ai_logging', __('Enable logging:', 'amazonpolly'), array(
                 $this,
                 'logging_gui'
@@ -190,7 +198,6 @@ class AmazonAI_GeneralConfiguration
 
         echo '<input type="checkbox" name="'.TIM_LIMITLESS_ENABLED.'" id="'.TIM_LIMITLESS_ENABLED.'" ' . esc_attr($checked) .'onchange="toggleCheckbox(this)"' . '> <p class="description"></p>';
 
-        echo '<p class="description">it is free</p>';
         echo '<script> 
                 function toggleCheckbox(element)
                  {

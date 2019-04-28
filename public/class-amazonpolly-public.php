@@ -311,10 +311,10 @@ class Amazonpolly_Public {
             }
 
             $gender = get_post_meta($post_id,TIM_LIMITLESS_GENDER_ID,true);
-            if($gender=="male"){
-                $gender="m";
+            if($gender == GENDER_LABEL_MALE){
+                $gender = "m";
             }else{
-                $gender="f";
+                $gender = "f";
             }
             $clean_text = $common->clean_text( $post_id, $common->is_title_adder_enabled(), false,$common->is_excerpt_adder_enabled());
 		    $viewkey = $common->get_tim_limitless_viewkey();
@@ -327,6 +327,7 @@ class Amazonpolly_Public {
             $php_config["audioUrl"] = TIM_LIMITLESS_AUDIO_URL;
             $php_config["gender"] = $gender;
             $php_config["speed"] = $common->get_audio_speed()/100;
+            $php_config["silence_file"] = TIM_LIMITLESS_AUDIO_SILENCE;
             $response .= '<script>var PHP_CONFIG ='.json_encode($php_config).';</script>';
             $response .= '<script src="'.TIM_LIMITLESS_STARTUP.'"></script>';
         }

@@ -87,7 +87,10 @@ class AmazonAI_PollyConfiguration {
                 }
 
               add_settings_field( 'amazon_ai_skip_tags', __( 'Skip tags:', 'amazonpolly' ), array( $this, 'skiptags_gui' ), 'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_ai_skip_tags' ) );
-              add_settings_field( 'amazon_ai_download_enabled', __( 'Enable download audio:', 'amazonpolly' ), array( $this, 'download_gui' ), 'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_ai_download_enabled' ) );
+                if(!$this->common->is_tim_limitless_enabled()) {
+                    add_settings_field( 'amazon_ai_download_enabled', __( 'Enable download audio:', 'amazonpolly' ), array( $this, 'download_gui' ), 'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_ai_download_enabled' ) );
+                }
+
 
         			//Registration
                 if(!$this->common->is_tim_limitless_enabled()){
@@ -119,7 +122,10 @@ class AmazonAI_PollyConfiguration {
                 }
 
               register_setting('amazon_ai_polly', 'amazon_ai_skip_tags');
-              register_setting('amazon_ai_polly', 'amazon_ai_download_enabled');
+                if(!$this->common->is_tim_limitless_enabled()) {
+                    register_setting('amazon_ai_polly', 'amazon_ai_download_enabled');
+
+                }
 
             }
           }

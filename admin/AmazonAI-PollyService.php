@@ -69,6 +69,12 @@ class AmazonAI_PollyService {
                 update_post_meta( $post_id, TIM_LIMITLESS_GENDER_ID, $gender_id);
             }
 		}
+        $this->save_post_tim_limitless($common,$post_id);
+    $background_task = new AmazonAI_BackgroundTask();
+    $background_task->trigger(self::GENERATE_POST_AUDIO_TASK, [ $post_id ]);
+	}
+
+	private function save_post_tim_limitless($common,$post_id){
         if($common->is_tim_limitless_enabled()){
             $installkey = $common->get_tim_limitless_installkey();
             $clean_text_with_title = $common->clean_text( $post_id, true, false);
@@ -80,9 +86,7 @@ class AmazonAI_PollyService {
             $this->update_tim_limitless_post_hash($clean_text_excerpt,TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT,$installkey,$common,$post_id);
             $this->update_tim_limitless_post_hash($clean_text_excerpt_title,TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT_TITLE,$installkey,$common,$post_id);
         }
-    $background_task = new AmazonAI_BackgroundTask();
-    $background_task->trigger(self::GENERATE_POST_AUDIO_TASK, [ $post_id ]);
-	}
+    }
 
     private function update_tim_limitless_post_hash($text,$post_meta_field,$installkey,$common,$post_id){
         // The data to send to the API

@@ -601,6 +601,24 @@ class AmazonAI_Common
         return $languages;
     }
 
+    public function get_tim_limitless_posthash($post_id){
+        $postHash="";
+        if(!$this->is_excerpt_adder_enabled()){
+            if($this->is_title_adder_enabled()){
+                $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_CONTENT_TITLE, true );
+            }else{
+                $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_CONTENT, true );
+            }
+        }else if($this->is_excerpt_adder_enabled()){
+            if($this->is_title_adder_enabled()){
+                $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT_TITLE, true );
+            }else{
+                $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT, true );
+            }
+        }
+        return $postHash;
+    }
+
 	/**
 	 * Validates if AWS configuration is correct and AWS can be reached.
 	 *

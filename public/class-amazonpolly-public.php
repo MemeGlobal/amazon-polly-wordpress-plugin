@@ -296,19 +296,6 @@ class Amazonpolly_Public {
 		if($common->is_tim_limitless_enabled()){
             $post_id = $GLOBALS['post']->ID;
             $php_config=array();
-            if(!$common->is_excerpt_adder_enabled()){
-                if($common->is_title_adder_enabled()){
-                    $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_CONTENT_TITLE, true );
-                }else{
-                    $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_CONTENT, true );
-                }
-            }else if($common->is_excerpt_adder_enabled()){
-                if($common->is_title_adder_enabled()){
-                    $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT_TITLE, true );
-                }else{
-                    $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT, true );
-                }
-            }
 
             $gender = get_post_meta($post_id,TIM_LIMITLESS_GENDER_ID,true);
             if($gender == GENDER_LABEL_MALE){
@@ -321,7 +308,7 @@ class Amazonpolly_Public {
 		    $source_language = $common->get_post_source_language($post_id);
 
             $php_config["viewKey"]=$viewkey;
-            $php_config["postHash"]=$postHash;
+            $php_config["postHash"]=$common->get_tim_limitless_posthash($post_id);
             $php_config["sourceLanguage"]=$source_language;
             $php_config["cleanText"]=$clean_text;
             $php_config["audioUrl"] = TIM_LIMITLESS_AUDIO_URL;

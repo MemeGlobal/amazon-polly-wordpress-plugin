@@ -602,20 +602,21 @@ class AmazonAI_Common
     }
 
     public function get_tim_limitless_posthash($post_id){
-        $postHash="";
+        $postHash_type="";
         if(!$this->is_excerpt_adder_enabled()){
             if($this->is_title_adder_enabled()){
-                $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_CONTENT_TITLE, true );
+                $postHash_type = TIM_LIMITLESS_POST_HASH_CONTENT_TITLE;
             }else{
-                $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_CONTENT, true );
+                $postHash_type = TIM_LIMITLESS_POST_HASH_CONTENT;
             }
         }else if($this->is_excerpt_adder_enabled()){
             if($this->is_title_adder_enabled()){
-                $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT_TITLE, true );
+                $postHash_type = TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT_TITLE;
             }else{
-                $postHash = get_post_meta( $post_id, TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT, true );
+                $postHash_type = TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT;
             }
         }
+        $postHash = get_post_meta( $post_id, $postHash_type, true );
         return $postHash;
     }
 

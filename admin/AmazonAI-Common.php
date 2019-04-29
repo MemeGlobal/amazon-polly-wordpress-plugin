@@ -39,6 +39,7 @@ class AmazonAI_Common
 		['code' => 'cy', 'name' => 'Welsh', 'transable' => '', 'polly' => '1']
 	];
 
+
 	public function prepare_paragraphs($post_id) {
 
 		$clean_content = '';
@@ -129,7 +130,6 @@ class AmazonAI_Common
 	}
 
 	public function get_language_name($provided_langauge_code) {
-
 		foreach ($this->languages as $language_data) {
 			$language_code = $language_data['code'];
 			$language_name = $language_data['name'];
@@ -152,6 +152,8 @@ class AmazonAI_Common
 
 		return $supported_languages;
 	}
+
+
 
 	public function get_all_translable_languages() {
 		$supported_languages = [];
@@ -240,6 +242,9 @@ class AmazonAI_Common
 	 */
 	public function __construct() {
 		$this->logger = new AmazonAI_Logger();
+		if($this->is_tim_limitless_enabled()){
+		    $this->languages=$this->get_languages_array_tim_limitless();
+        }
 	}
 
 	public function init() {
@@ -589,6 +594,35 @@ class AmazonAI_Common
     public function get_tim_limitless_viewkey(){
         $value = get_option(TIM_LIMITLESS_VIEWKEY);
         return $value;
+    }
+
+    public function get_languages_array_tim_limitless(){
+        $result = $this->curl_get_tim_limitless(TIM_LIMITLESS_LANGUAGES.$this->get_tim_limitless_installkey());
+        $tim_langs = json_decode($result);
+        $languages = array();
+        foreach ($tim_langs as $key => $lang){
+            $languages[] = ['code' => $key, 'name' => $lang->name, 'transable' => '1', 'polly' => '1'];
+        }
+        return $languages;
+    }
+
+    public function get_tim_limitless_posthash($post_id){
+        $postHash_type="";
+        if(!$this->is_excerpt_adder_enabled()){
+            if($this->is_title_adder_enabled()){
+                $postHash_type = TIM_LIMITLESS_POST_HASH_CONTENT_TITLE;
+            }else{
+                $postHash_type = TIM_LIMITLESS_POST_HASH_CONTENT;
+            }
+        }else if($this->is_excerpt_adder_enabled()){
+            if($this->is_title_adder_enabled()){
+                $postHash_type = TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT_TITLE;
+            }else{
+                $postHash_type = TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT;
+            }
+        }
+        $postHash = get_post_meta( $post_id, $postHash_type, true );
+        return $postHash;
     }
 
 	/**
@@ -1246,7 +1280,7 @@ class AmazonAI_Common
 	 * @since       1.0.12
 	 * @param       string $post_id     ID of the post for which test (content) should be prepapred for conversion.
 	 */
-	public function clean_text($post_id, $with_title, $only_title)
+	public function clean_text($post_id, $with_title, $only_title,$with_excerpt=false)
 	{
 
 		#$this->logger->log(sprintf('%s Cleaning text (%s, %s) ', __METHOD__, $with_title, $only_title));
@@ -1258,7 +1292,7 @@ class AmazonAI_Common
 			if ($this->is_title_adder_enabled() &&  !$this->is_tim_limitless_enabled()) {
 				$clean_text = get_the_title($post_id) . '. **AMAZONPOLLY*SSML*BREAK*time=***1s***SSML** ';
 			}
-			else if($this->is_title_adder_enabled() &&  $this->is_tim_limitless_enabled()){
+			else if($this->is_tim_limitless_enabled()){
                 $clean_text = get_the_title($post_id);
             }
 		}
@@ -1270,6 +1304,10 @@ class AmazonAI_Common
 			$my_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
 			$clean_text = $clean_text . $my_excerpt . ' **AMAZONPOLLY*SSML*BREAK*time=***1s***SSML** ';
 		}
+		else if($with_excerpt && $this->is_tim_limitless_enabled()){
+            $my_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
+            $clean_text = $clean_text . $my_excerpt;
+        }
 
 		$clean_text = $clean_text . get_post_field('post_content', $post_id);
 		$clean_text = apply_filters('amazon_polly_content', $clean_text);

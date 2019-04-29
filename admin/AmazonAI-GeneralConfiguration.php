@@ -328,7 +328,6 @@ class AmazonAI_GeneralConfiguration
       $selected_source_language = $this->common->get_source_language();
 
       echo '<select name="amazon_ai_source_language" id="amazon_ai_source_language" >';
-
       foreach ($this->common->get_all_languages() as $language_code) {
         $language_name = $this->common->get_language_name($language_code);
         echo '<option label="' . esc_attr($language_name) . '" value="' . esc_attr($language_code) . '" ';

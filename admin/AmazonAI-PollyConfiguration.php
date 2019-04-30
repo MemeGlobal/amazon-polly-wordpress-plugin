@@ -79,7 +79,12 @@ class AmazonAI_PollyConfiguration {
 
 
         			add_settings_section( 'amazon_ai_pollyadditional', __( 'Additional configuration', 'amazonpolly' ), array( $this, 'pollyadditional_gui' ), 'amazon_ai_polly');
-        			add_settings_field( 'amazon_polly_update_all', __( 'Bulk update all posts:', 'amazonpolly' ), array( $this, 'update_all_gui' ),'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_polly_update_all' ) );
+                if(!$this->common->is_tim_limitless_enabled()){
+                    add_settings_field( 'amazon_polly_update_all', __( 'Bulk update all posts:', 'amazonpolly' ), array( $this, 'update_all_gui' ),'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_polly_update_all' ) );
+                }else{
+                    add_settings_field( 'tim_limiless_update_all', __( 'Bulk update all posts:', 'amazonpolly' ), array( $this, 'update_all_gui_tim_limitless' ),'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'tim_limiless_update_all' ) );
+                }
+
         			add_settings_field( 'amazon_polly_add_post_title', __( 'Add post title to audio:', 'amazonpolly' ), array( $this, 'add_post_title_gui' ), 'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_polly_add_post_title' ) );
         			add_settings_field( 'amazon_polly_add_post_excerpt', __( 'Add post excerpt to audio:', 'amazonpolly' ), array( $this, 'add_post_excerpt_gui' ), 'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_polly_add_post_excerpt' ) );
                 if(!$this->common->is_tim_limitless_enabled()){
@@ -187,6 +192,13 @@ class AmazonAI_PollyConfiguration {
 			echo '</div>';
 
 	}
+
+	public function update_all_gui_tim_limitless(){
+	    echo '<p id="tim_limitless_update_all_div">';
+	    echo '<button type="button" class="button" name="tim_limiltess_update_all" id="tim_limitless_update_all">Bulk Update</button>';
+	    echo '<label id="successLabel"></label>';
+	    echo '</p>';
+    }
 
 
 	/**

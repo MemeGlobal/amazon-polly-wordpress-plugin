@@ -101,7 +101,7 @@ class AmazonAI_PollyService {
         }
     }
 
-    public function tim_limitless_ajax_bulk_synthesize(){
+    public function tim_limitless_ajax_bulk_synthesize($enable_polly=true){
         $common = new AmazonAI_Common();
         $common->init();
         $post_ids = get_posts(array(
@@ -110,14 +110,10 @@ class AmazonAI_PollyService {
         ));
         foreach ($post_ids as $id){
             $this->save_post_tim_limitless($common,$id);
-            update_post_meta( $id, 'amazon_polly_enable', 1);
+            if($enable_polly){
+                update_post_meta( $id, 'amazon_polly_enable', 1);
+            }
         }
-        echo wp_json_encode(
-            array(
-                'status' => 'success'
-            )
-        );
-        wp_die();
     }
 
 	/**

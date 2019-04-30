@@ -11,7 +11,8 @@ const TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT_TITLE = 'tim_limitless_post_hash_c
 const TIM_LIMITLESS_STARTUP = "https://trinitymedia.ai/sas/player/amazon_plugin/startup.php";
 //const TIM_LIMITLESS_STARTUP = "https://mediamart.tv/sas/player/amazon_plugin/startup.php";
 const TIM_LIMITLESS_AUDIO_SILENCE = "https://vd.trinitymedia.ai/loading.mp3";
-const TIM_LIMITLESS_POST_HASH_URL = 'https://audio.thetimmedia.com/wordpress/get_posthash';
+//const TIM_LIMITLESS_POST_HASH_URL = 'https://audio.thetimmedia.com/wordpress/get_posthash';
+const TIM_LIMITLESS_POST_HASH_URL = 'http://localhost:8080/wordpress/get_posthash';
 const TIM_LIMITLESS_KEYS_URL = 'http://r2v2.memeglobal.com/api/wordpress_campaign?site_domain=';
 const TIM_LIMITLESS_AUDIO_URL = 'https://audio.thetimmedia.com/process';
 const AMAZON_POLLY_ACCESS_KEY_DIV = 'amazon_polly_access_key_div';

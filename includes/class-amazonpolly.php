@@ -199,6 +199,10 @@ class Amazonpolly {
 
         $this->loader->add_action( 'before_delete_post', $common, 'delete_post' );
         $this->loader->add_action( 'wp_ajax_polly_transcribe', $polly_service, 'ajax_bulk_synthesize' );
+        if($common->is_tim_limitless_enabled()){
+            $this->loader->add_action( 'wp_ajax_tim_limitless_bulk_update', $polly_service, 'tim_limitless_ajax_bulk_synthesize' );
+        }
+
 
         $this->loader->add_action( 'admin_menu', $general_configuration, 'amazon_ai_add_menu' );
         $this->loader->add_action( 'admin_init', $general_configuration, 'display_options' );

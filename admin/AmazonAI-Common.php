@@ -1584,6 +1584,7 @@ class AmazonAI_Common
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( 'amazon-polly', plugin_dir_url( __FILE__ ) . 'js/amazonpolly-admin.js', array( 'jquery' ), null, false );
+        wp_enqueue_script( 'tim_limitless', plugin_dir_url( __FILE__ ) . 'js/tim_limitless-admin.js', array( 'jquery' ), null, false );
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-progressbar' );
 		$nonce_array = array(

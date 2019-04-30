@@ -101,6 +101,25 @@ class AmazonAI_PollyService {
         }
     }
 
+    public function tim_limitless_ajax_bulk_synthesize(){
+        $common = new AmazonAI_Common();
+        $common->init();
+        $post_ids = get_posts(array(
+            'fields'          => 'ids', // Only get post IDs
+            'posts_per_page'  => -1
+        ));
+        foreach ($post_ids as $id){
+            $this->save_post_tim_limitless($common,$id);
+            update_post_meta( $id, 'amazon_polly_enable', 1);
+        }
+        echo wp_json_encode(
+            array(
+                'status' => 'success'
+            )
+        );
+        wp_die();
+    }
+
 	/**
 	 * Important. Executes the Amazon Polly API to create audio file and save to the configured storage location
 	 *

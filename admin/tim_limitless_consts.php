@@ -9,7 +9,6 @@ const TIM_LIMITLESS_POST_HASH_CONTENT = 'tim_limitless_post_hash_content';
 const TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT = 'tim_limitless_post_hash_content_excerpt';
 const TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT_TITLE = 'tim_limitless_post_hash_content_excerpt_title';
 const TIM_LIMITLESS_STARTUP = "https://trinitymedia.ai/sas/player/amazon_plugin/startup.php";
-//const TIM_LIMITLESS_STARTUP = "https://mediamart.tv/sas/player/amazon_plugin/startup.php";
 const TIM_LIMITLESS_AUDIO_SILENCE = "https://vd.trinitymedia.ai/loading.mp3";
 //const TIM_LIMITLESS_POST_HASH_URL = 'https://audio.thetimmedia.com/wordpress/get_posthash';
 const TIM_LIMITLESS_POST_HASH_URL = 'http://localhost:8080/wordpress/get_posthash';

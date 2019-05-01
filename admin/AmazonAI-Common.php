@@ -574,7 +574,7 @@ class AmazonAI_Common
 		if(!empty($value)) return;
         $site_url = get_site_url();
         $site_domain = parse_url($site_url, PHP_URL_HOST);
-        $response =$this->curl_get_tim_limitless(TIM_LIMITLESS_KEYS_URL.$site_domain);
+        $response =$this->curl_get_tim_limitless(TRINITY_AUDIO_KEYS_URL.$site_domain);
         if($response){
 			$responseData=json_decode($response, TRUE);
             update_option( TIM_LIMITLESS_INSTALLKEY, $responseData["installkey"]);
@@ -598,7 +598,7 @@ class AmazonAI_Common
     }
 
     public function get_languages_array_tim_limitless(){
-        $result = $this->curl_get_tim_limitless(TIM_LIMITLESS_LANGUAGES.$this->get_tim_limitless_installkey());
+        $result = $this->curl_get_tim_limitless(TRINITY_AUDIO_LANGUAGES.$this->get_tim_limitless_installkey());
         $tim_langs = json_decode($result);
         $languages = array();
         foreach ($tim_langs as $key => $lang){

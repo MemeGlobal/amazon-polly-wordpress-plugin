@@ -100,8 +100,11 @@ class AmazonAI_PollyService {
             update_post_meta( $post_id, $post_meta_field, $responseData['postHash']);
         }
     }
+    public function tim_limitless_ajax_bulk_synthesize_enable_polly(){
+	    return $this->tim_limitless_ajax_bulk_synthesize(true);
+    }
 
-    public function tim_limitless_ajax_bulk_synthesize($enable_polly=true){
+    public function tim_limitless_ajax_bulk_synthesize($enable_polly){
         $common = new AmazonAI_Common();
         $common->init();
         $post_ids = get_posts(array(

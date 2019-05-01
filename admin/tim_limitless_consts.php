@@ -12,9 +12,10 @@ const TIM_LIMITLESS_STARTUP = "https://trinitymedia.ai/sas/player/amazon_plugin/
 const TIM_LIMITLESS_AUDIO_SILENCE = "https://vd.trinitymedia.ai/loading.mp3";
 
 const TRINITY_AUDIO_SERVICE = 'https://audio.trinityaudio.ai/';
-const TIM_LIMITLESS_POST_HASH_URL = TRINITY_AUDIO_SERVICE . 'wordpress/get_posthash';
-const TIM_LIMITLESS_KEYS_URL = TRINITY_AUDIO_SERVICE . 'wordpress/signup?site_domain=';
-const TIM_LIMITLESS_LANGUAGES = TRINITY_AUDIO_SERVICE . "wordpress/get_languages?installkey=";
+const TRINITY_AUDIO_WP_SERVICE = TRINITY_AUDIO_SERVICE . 'wordpress/';
+const TIM_LIMITLESS_POST_HASH_URL = TRINITY_AUDIO_WP_SERVICE . 'get_posthash';
+const TIM_LIMITLESS_KEYS_URL = TRINITY_AUDIO_WP_SERVICE . 'signup?site_domain=';
+const TIM_LIMITLESS_LANGUAGES = TRINITY_AUDIO_WP_SERVICE . "get_languages?installkey=";
 const TIM_LIMITLESS_AUDIO_URL = TRINITY_AUDIO_SERVICE . 'process';
 
 const AMAZON_POLLY_ACCESS_KEY_DIV = 'amazon_polly_access_key_div';

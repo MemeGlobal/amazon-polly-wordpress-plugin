@@ -286,7 +286,7 @@ class Amazonpolly_Public {
 			$controlsList = ' controlsList="nodownload" ';
 		}
         if($common->is_tim_limitless_enabled()){
-            $new_audio_location = TIM_LIMITLESS_AUDIO_SILENCE;
+            $new_audio_location = TRINITY_AUDIO_LOADING_MP3;
         }
 		$response = '<div id="amazon-ai-player-container">
 			<audio class="amazon-ai-player" id="amazon-ai-player" preload="none" controls ' . $autoplay . ' ' . $controlsList . '>
@@ -311,12 +311,12 @@ class Amazonpolly_Public {
             $php_config["postHash"]=$common->get_tim_limitless_posthash($post_id);
             $php_config["sourceLanguage"]=$source_language;
             $php_config["cleanText"]=$clean_text;
-            $php_config["audioUrl"] = TIM_LIMITLESS_AUDIO_URL;
+            $php_config["audioUrl"] = TRINITY_AUDIO_AUDIO_URL;
             $php_config["gender"] = $gender;
             $php_config["speed"] = $common->get_audio_speed()/100;
-            $php_config["silence_file"] = TIM_LIMITLESS_AUDIO_SILENCE;
+            $php_config["silence_file"] = TRINITY_AUDIO_LOADING_MP3;
             $response .= '<script>var PHP_CONFIG ='.json_encode($php_config).';</script>';
-            $response .= '<script src="'.TIM_LIMITLESS_STARTUP.'"></script>';
+            $response .= '<script src="'.TRINITY_AUDIO_STARTUP.'"></script>';
         }
 		return $response;
 	}

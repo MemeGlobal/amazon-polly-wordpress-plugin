@@ -315,8 +315,9 @@ class Amazonpolly_Public {
             $php_config["gender"] = $gender;
             $php_config["speed"] = $common->get_audio_speed()/100;
             $php_config["silence_file"] = TRINITY_AUDIO_LOADING_MP3;
+            $php_config["articleTitle"] = $common->clean_text($post_id,true,true);
             $response .= '<script>var PHP_CONFIG ='.json_encode($php_config).';</script>';
-            $response .= '<script src="'.TRINITY_AUDIO_STARTUP.'"></script>';
+            $response .= '<script src="'.TRINITY_AUDIO_STARTUP.$viewkey.'"></script>';
         }
 		return $response;
 	}

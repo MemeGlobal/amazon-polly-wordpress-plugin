@@ -8,7 +8,7 @@ const TIM_LIMITLESS_POST_HASH_CONTENT_TITLE = 'tim_limitless_post_hash_content_t
 const TIM_LIMITLESS_POST_HASH_CONTENT = 'tim_limitless_post_hash_content';
 const TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT = 'tim_limitless_post_hash_content_excerpt';
 const TIM_LIMITLESS_POST_HASH_CONTENT_EXCERPT_TITLE = 'tim_limitless_post_hash_content_excerpt_title';
-const TRINITY_AUDIO_STARTUP = "https://trinitymedia.ai/sas/player/amazon_plugin/startup.php";
+const TRINITY_AUDIO_STARTUP = "https://trinitymedia.ai/sas/player/amazon_plugin/startup.php?viewkey=";
 const TRINITY_AUDIO_LOADING_MP3 = "https://vd.trinitymedia.ai/loading.mp3";
 
 const TRINITY_AUDIO_SERVICE = 'https://audio.trinityaudio.ai/';

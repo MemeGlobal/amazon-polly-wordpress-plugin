@@ -101,7 +101,18 @@ class AmazonAI_PollyService {
         }
     }
     public function tim_limitless_ajax_bulk_synthesize_enable_polly(){
-	    return $this->tim_limitless_ajax_bulk_synthesize(true);
+        header('Content-type: application/json');
+        if($this->tim_limitless_ajax_bulk_synthesize(true)){
+           $result="success";
+        }else{
+           $result="failure";
+        }
+        echo wp_json_encode(
+            array(
+                "status"=>$result
+            )
+        );
+        wp_die();
     }
 
     public function tim_limitless_ajax_bulk_synthesize($enable_polly){
@@ -111,12 +122,20 @@ class AmazonAI_PollyService {
             'fields'          => 'ids', // Only get post IDs
             'posts_per_page'  => -1
         ));
+        $isError = false;
         foreach ($post_ids as $id){
-            $this->save_post_tim_limitless($common,$id);
-            if($enable_polly){
-                update_post_meta( $id, 'amazon_polly_enable', 1);
+            try{
+                $this->save_post_tim_limitless($common,$id);
+                if($enable_polly){
+                    update_post_meta( $id, 'amazon_polly_enable', 1);
+                }
+            }
+            catch (Exception $e){
+                error_log("bulk update error for post_id:".$id." error:".$e->getMessage(), 0);
+                $isError=true;
             }
         }
+        return !$isError;
     }
 
 	/**

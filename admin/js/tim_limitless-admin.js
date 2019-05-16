@@ -59,6 +59,7 @@
             if ( window.console && window.console.log ) {
                 console.log( response );
             }
+            showLoader(false);
             var label = document.getElementById("successLabel");
             label.innerText="A problem occurred while updating posts. try again later.";
         });

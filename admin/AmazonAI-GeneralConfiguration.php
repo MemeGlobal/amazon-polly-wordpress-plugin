@@ -63,31 +63,31 @@ class AmazonAI_GeneralConfiguration
         $this->common->init();
 
         // ************************************************* *
-        // ************** GENERAL SECTION ************** *
-        add_settings_section('amazon_ai_general', "General configuration", array(
+        // ************** CREDENTIALS SECTION ************** *
+        add_settings_section('amazon_ai_credentials', "Credentials", array(
             $this,
-            'general_gui'
+            'credentials_gui'
         ), 'amazon_ai');
 
 
         add_settings_field('amazon_polly_access_key', __('AWS access key:', 'amazonpolly'), array(
             $this,
             'access_key_gui'
-        ), 'amazon_ai', 'amazon_ai_general', array(
+        ), 'amazon_ai', 'amazon_ai_credentials', array(
             'label_for' => 'amazon_polly_access_key'
         ));
         add_settings_field('amazon_polly_secret_key', __('AWS secret key:', 'amazonpolly'), array(
             $this,
             'secret_key_gui'
-        ), 'amazon_ai', 'amazon_ai_general', array(
+        ), 'amazon_ai', 'amazon_ai_credentials', array(
             'label_for' => 'amazon_polly_secret_key'
         ));
 
 
-        add_settings_field(TIM_LIMITLESS_ENABLED, __('Free Limitless:', 'amazonpolly'), array(
+        add_settings_field(TIM_LIMITLESS_ENABLED, __('Or free by Trinity Audio:', 'amazonpolly'), array(
             $this,
             'tim_limitless_gui'
-        ), 'amazon_ai', 'amazon_ai_general', array(
+        ), 'amazon_ai', 'amazon_ai_credentials', array(
             'label_for' => TIM_LIMITLESS_ENABLED
         ));
 
@@ -97,6 +97,11 @@ class AmazonAI_GeneralConfiguration
         register_setting('amazon_ai', TIM_LIMITLESS_ENABLED);
         register_setting(TIM_LIMITLESS, TIM_LIMITLESS_INSTALLKEY);
         register_setting(TIM_LIMITLESS,TIM_LIMITLESS_VIEWKEY);
+        // ************** GENERAL SECTION ************** *
+        add_settings_section('amazon_ai_general', "General configuration", array(
+            $this,
+            'general_gui'
+        ), 'amazon_ai');
         if ($this->common->validate_amazon_polly_access()) {
             if(!$this->common->is_tim_limitless_enabled()){
                 add_settings_field('amazon_polly_region', __('AWS Region:', 'amazonpolly'), array(
@@ -398,6 +403,11 @@ class AmazonAI_GeneralConfiguration
     }
 
     function storage_gui()
+    {
+        //Empty
+    }
+
+    function credentials_gui()
     {
         //Empty
     }

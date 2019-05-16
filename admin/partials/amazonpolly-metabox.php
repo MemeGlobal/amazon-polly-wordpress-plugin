@@ -19,7 +19,11 @@
 require_once __DIR__ . '/../tim_limitless_consts.php';
 function amazon_polly_box_content( $post ) {
 	display_polly_gui($post);
-	display_translate_gui($post);
+    $common = new AmazonAI_Common();
+    if(!$common->is_tim_limitless_enabled()){
+        display_translate_gui($post);
+    }
+
 }
 
 /**

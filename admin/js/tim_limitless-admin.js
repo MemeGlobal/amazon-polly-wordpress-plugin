@@ -53,12 +53,17 @@
             success: function( response ) {
 				 showLoader(false);
                  var label = document.getElementById("successLabel");
-				 label.innerText="All posts were updated successfully.";
+                 if(response.status=="success"){
+                    label.innerText="All posts were updated successfully.";
+                 }else{
+                    label.innerText="Update finished. Some posts failed to update.";
+                 }
             }
         }).fail(function (response) {
             if ( window.console && window.console.log ) {
                 console.log( response );
             }
+            showLoader(false);
             var label = document.getElementById("successLabel");
             label.innerText="A problem occurred while updating posts. try again later.";
         });

@@ -482,6 +482,9 @@ class AmazonAI_Common
 	 */
 	public function is_translation_enabled()
 	{
+        if($this->is_tim_limitless_enabled()){
+            return false;
+        }
 				if ($this->is_s3_enabled()) {
 					$start_value = $this->checked_validator('amazon_polly_trans_enabled');
 					$translate_accessible = true;

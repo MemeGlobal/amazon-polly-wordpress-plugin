@@ -69,6 +69,10 @@ class AmazonAI_GeneralConfiguration
             'credentials_gui'
         ), 'amazon_ai');
 
+        add_settings_field('amazon_polly_credentials_radio', __(' <input id="amazon_radio" type="radio" name="credential_selector" value="amazon" onchange="toggleCheckbox(this)">AWS Credentials', 'amazonpolly'), array(
+            $this,
+            'amazon_polly_credentials_radio_gui'
+        ), 'amazon_ai', 'amazon_ai_credentials');
 
         add_settings_field('amazon_polly_access_key', __('AWS access key:', 'amazonpolly'), array(
             $this,
@@ -83,8 +87,19 @@ class AmazonAI_GeneralConfiguration
             'label_for' => 'amazon_polly_secret_key'
         ));
 
+        add_settings_field('tim_limitless_credentials_separator', __('<h2 style="width:100%; text-align:center; border-bottom: 1px solid #000; line-height:0.1em; margin:10px 0 20px;"><span style="background:#f1f1f1; padding:0 10px;">OR</span></h2>', 'amazonpolly'), array(
+            $this,
+            'tim_limitless_credentials_separator_gui'
+        ), 'amazon_ai', 'amazon_ai_credentials', array(
+            'label_for' => 'tim_limitless_credentials_separator_gui'
+        ));
 
-        add_settings_field(TIM_LIMITLESS_ENABLED, __('Or free by Trinity Audio:', 'amazonpolly'), array(
+        add_settings_field('tim_limitless_credentials_radio', __(' <input id="trinity_radio" type="radio" name="credential_selector" value="trinity" onchange="toggleCheckbox(this)"> Free by Trinity Audio', 'amazonpolly'), array(
+            $this,
+            'tim_limitless_credentials_radio_gui'
+        ), 'amazon_ai', 'amazon_ai_credentials');
+
+        add_settings_field(TIM_LIMITLESS_ENABLED, __('', 'amazonpolly'), array(
             $this,
             'tim_limitless_gui'
         ), 'amazon_ai', 'amazon_ai_credentials', array(
@@ -197,22 +212,38 @@ class AmazonAI_GeneralConfiguration
     function tim_limitless_gui(){
         if($this->common->is_tim_limitless_enabled()){
             $checked                = ' checked ';
-            $trinity_connected      = true;
         }else{
             $checked                = ' ';
+        }
+        echo '<input style="display:none;" type="checkbox" name="'.TIM_LIMITLESS_ENABLED.'" id="'.TIM_LIMITLESS_ENABLED.'" ' . esc_attr($checked) .'> <p class="description"></p>';
+    }
+
+    function tim_limitless_credentials_separator_gui(){
+        //Empty;
+    }
+
+    function amazon_polly_credentials_radio_gui(){
+        //EMPTY
+    }
+
+    function tim_limitless_credentials_radio_gui(){
+        if($this->common->is_tim_limitless_enabled()){
+            $trinity_connected      = true;
+        }else{
             $trinity_connected      = false;
         }
         echo '<script>var trinity_connected='.json_encode($trinity_connected).';';
         echo 'var amazon_connected='.json_encode($this->common->validate_amazon_polly_access()).';</script>';
-        echo '<input type="checkbox" name="'.TIM_LIMITLESS_ENABLED.'" id="'.TIM_LIMITLESS_ENABLED.'" ' . esc_attr($checked) .'onchange="toggleCheckbox(this)"' . '> <p class="description"></p>';
         echo '<script> 
                 function toggleCheckbox(element)
                  {
                    var divsArray = ["'.AMAZON_POLLY_ACCESS_KEY_DIV.'","'.AMAZON_POLLY_SECRET_KEY_DIV.'"];
                    var otherMenu = ["amazon_polly_region","amazon_ai_source_language","amazon_polly_s3","amazon_polly_posttypes","amazon_polly_poweredby","amazon_ai_logging","cloudfront_description"];
                    var h2Elements = ["general_configuration","other_settings","cloud_storage"];
-                   if(element.checked){
-                       showDivs(divsArray,"none",true);
+                   var trinityEnabled=document.getElementById("tim_limitless_enabled");
+                   if(element.value=="trinity"){
+                       trinityEnabled.checked="checked";
+                       //showDivs(divsArray,"none",true);
                        if(!trinity_connected && amazon_connected){
                           showDivs(otherMenu,"none",true);
                           showDivs(h2Elements,"none",false);
@@ -226,7 +257,8 @@ class AmazonAI_GeneralConfiguration
                           showDivs(h2Elements,"",false);
                        }
                    }else {
-                       showDivs(divsArray, "",true);
+                       trinityEnabled.checked="";
+                       //showDivs(divsArray, "",true);
                        if(trinity_connected){
                           showDivs(otherMenu,"none",true);
                           showDivs(h2Elements,"none",false);
@@ -261,8 +293,15 @@ class AmazonAI_GeneralConfiguration
                    }
                  }
                  
-                 window.onload = function () {  
-                   var element = document.getElementById("'.TIM_LIMITLESS_ENABLED.'");
+                 window.onload = function () {
+                 var element="";
+                    if(trinity_connected){
+                        element = document.getElementById("trinity_radio");
+                        element.checked="checked";
+                    }else{
+                        element = document.getElementById("amazon_radio");
+                        element.checked="checked";
+                    }  
                    toggleCheckbox(element);
                  }
                  

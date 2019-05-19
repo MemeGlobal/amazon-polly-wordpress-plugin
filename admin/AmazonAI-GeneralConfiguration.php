@@ -235,6 +235,10 @@ class AmazonAI_GeneralConfiguration
                        showDivs(otherMenu,"",true);
                        showDivs(h2Elements,"",false);
                        }
+                       else if(!trinity_connected && !amazon_connected){
+                          showDivs(otherMenu,"none",true);
+                          showDivs(h2Elements,"none",false);
+                       }
     
                    }
                  }

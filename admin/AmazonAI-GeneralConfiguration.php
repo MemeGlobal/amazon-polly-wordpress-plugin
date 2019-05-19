@@ -98,7 +98,7 @@ class AmazonAI_GeneralConfiguration
         register_setting(TIM_LIMITLESS, TIM_LIMITLESS_INSTALLKEY);
         register_setting(TIM_LIMITLESS,TIM_LIMITLESS_VIEWKEY);
         // ************** GENERAL SECTION ************** *
-        add_settings_section('amazon_ai_general', "General configuration", array(
+        add_settings_section('amazon_ai_general', "", array(
             $this,
             'general_gui'
         ), 'amazon_ai');
@@ -121,7 +121,7 @@ class AmazonAI_GeneralConfiguration
             // ************************************************* *
             // ************** STORAGE SECTION ************** *
             if(!$this->common->is_tim_limitless_enabled()){
-                add_settings_section('amazon_ai_storage', __('Cloud storage', 'amazonpolly'), array(
+                add_settings_section('amazon_ai_storage', __('', 'amazonpolly'), array(
                     $this,
                     'storage_gui'
                 ), 'amazon_ai');
@@ -140,7 +140,7 @@ class AmazonAI_GeneralConfiguration
             }
             // ************************************************* *
             // ************** OTHER SECTION ************** *
-            add_settings_section('amazon_ai_other', __('Other settings', 'amazonpolly'), array(
+            add_settings_section('amazon_ai_other', __('', 'amazonpolly'), array(
                 $this,
                 'other_gui'
             ), 'amazon_ai');
@@ -197,28 +197,59 @@ class AmazonAI_GeneralConfiguration
     function tim_limitless_gui(){
         if($this->common->is_tim_limitless_enabled()){
             $checked                = ' checked ';
+            $trinity_connected      = true;
         }else{
             $checked                = ' ';
+            $trinity_connected      = false;
         }
-
+        echo '<script>var trinity_connected='.json_encode($trinity_connected).';';
+        echo 'var amazon_connected='.$this->common->is_polly_enabled().';</script>';
         echo '<input type="checkbox" name="'.TIM_LIMITLESS_ENABLED.'" id="'.TIM_LIMITLESS_ENABLED.'" ' . esc_attr($checked) .'onchange="toggleCheckbox(this)"' . '> <p class="description"></p>';
-
         echo '<script> 
                 function toggleCheckbox(element)
                  {
                    var divsArray = ["'.AMAZON_POLLY_ACCESS_KEY_DIV.'","'.AMAZON_POLLY_SECRET_KEY_DIV.'"];
+                   var otherMenu = ["amazon_polly_region","amazon_ai_source_language","amazon_polly_s3","amazon_polly_posttypes","amazon_polly_poweredby","amazon_ai_logging","cloudfront_description"];
+                   var h2Elements = ["general_configuration","other_settings","cloud_storage"];
                    if(element.checked){
-                       showDivs(divsArray,"none");
+                       showDivs(divsArray,"none",true);
+                       if(trinity_connected && amazon_connected){
+                          showDivs(otherMenu,"",true);
+                          showDivs(h2Elements,"",false);
+                       }
+                       else if(!trinity_connected || !amazon_connected ){
+                          showDivs(otherMenu,"none",true);
+                          showDivs(h2Elements,"none",false);
+                       }
                    }else {
-                       showDivs(divsArray, "");
+                       showDivs(divsArray, "",true);
+                       if(trinity_connected){
+                          showDivs(otherMenu,"none",true);
+                          showDivs(h2Elements,"none",false);
+                       }
+                       else if(amazon_connected){
+                       showDivs(otherMenu,"",true);
+                       showDivs(h2Elements,"",false);
+                       }
+    
                    }
                  }
                  
-                 function showDivs(elements,display){
+                 function showDivs(elements,display,isTr){
                    for(var i=0;i<elements.length;i++){
-                       var element = document.getElementById(elements[i]);
-                       var tr=element.parentElement.parentElement;
-                        tr.style.display = display;
+                       try{
+                         var element = document.getElementById(elements[i]);
+                         if(isTr){
+                            var tr=element.parentElement.parentElement;
+                            tr.style.display = display;
+                         }else{
+                            element.style.display = display;
+                         }
+                   
+                       }catch(e){
+                            console.log(e);
+                       }
+                     
                    }
                  }
                  
@@ -361,10 +392,10 @@ class AmazonAI_GeneralConfiguration
 
                 $cloudfront_domain_name = get_option('amazon_polly_cloudfront');
                 echo '<input type="text" name="amazon_polly_cloudfront" class="regular-text" "id="amazon_polly_cloudfront" value="' . esc_attr($cloudfront_domain_name) . '" > ';
-                echo '<p class="description">If you have set up CloudFront distribution for your S3 bucket, the name of the domain. For additional information and pricing, see: <a target="_blank" href="https://aws.amazon.com/cloudfront">https://aws.amazon.com/cloudfront</a> </p>';
+                echo '<p id="cloudfront_description" class="description">If you have set up CloudFront distribution for your S3 bucket, the name of the domain. For additional information and pricing, see: <a target="_blank" href="https://aws.amazon.com/cloudfront">https://aws.amazon.com/cloudfront</a> </p>';
 
             } else {
-                echo '<p class="description">Amazon S3 Storage needs to be enabled</p>';
+                echo '<p id="cloudfront_description" class="description">Amazon S3 Storage needs to be enabled</p>';
             }
     }
 
@@ -394,17 +425,17 @@ class AmazonAI_GeneralConfiguration
 
     function other_gui()
     {
-        //Empty
+        echo '<h2 id="other_settings">Other settings</h2>';
     }
 
     function general_gui()
     {
-        //Empty
+        echo '<h2 id="general_configuration">General configuration</h2>';
     }
 
     function storage_gui()
     {
-        //Empty
+        echo '<h2 id="cloud_storage">Cloud storage</h2>';
     }
 
     function credentials_gui()

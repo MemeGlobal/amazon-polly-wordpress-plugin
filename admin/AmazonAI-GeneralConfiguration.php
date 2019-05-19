@@ -203,7 +203,7 @@ class AmazonAI_GeneralConfiguration
             $trinity_connected      = false;
         }
         echo '<script>var trinity_connected='.json_encode($trinity_connected).';';
-        echo 'var amazon_connected='.$this->common->is_polly_enabled().';</script>';
+        echo 'var amazon_connected='.json_encode($this->common->validate_amazon_polly_access()).';</script>';
         echo '<input type="checkbox" name="'.TIM_LIMITLESS_ENABLED.'" id="'.TIM_LIMITLESS_ENABLED.'" ' . esc_attr($checked) .'onchange="toggleCheckbox(this)"' . '> <p class="description"></p>';
         echo '<script> 
                 function toggleCheckbox(element)
@@ -213,13 +213,17 @@ class AmazonAI_GeneralConfiguration
                    var h2Elements = ["general_configuration","other_settings","cloud_storage"];
                    if(element.checked){
                        showDivs(divsArray,"none",true);
-                       if(trinity_connected && amazon_connected){
-                          showDivs(otherMenu,"",true);
-                          showDivs(h2Elements,"",false);
+                       if(!trinity_connected && amazon_connected){
+                          showDivs(otherMenu,"none",true);
+                          showDivs(h2Elements,"none",false);
                        }
                        else if(!trinity_connected || !amazon_connected ){
                           showDivs(otherMenu,"none",true);
                           showDivs(h2Elements,"none",false);
+                       }
+                       else if(trinity_connected){
+                         showDivs(otherMenu,"",true);
+                          showDivs(h2Elements,"",false);
                        }
                    }else {
                        showDivs(divsArray, "",true);

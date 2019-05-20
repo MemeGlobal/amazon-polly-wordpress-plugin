@@ -75,7 +75,7 @@ class AmazonAI_PollyService {
 	}
 
 	private function save_post_tim_limitless($common,$post_id){
-        if($common->is_tim_limitless_enabled()){
+        if($common->is_trinity_connected()){
             $installkey = $common->get_tim_limitless_installkey();
             $clean_text_with_title = $common->clean_text( $post_id, true, false);
             $clean_text_without_title = $common->clean_text( $post_id, false, false);

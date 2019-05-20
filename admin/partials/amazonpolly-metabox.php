@@ -20,7 +20,7 @@ require_once __DIR__ . '/../tim_limitless_consts.php';
 function amazon_polly_box_content( $post ) {
 	display_polly_gui($post);
     $common = new AmazonAI_Common();
-    if(!$common->is_tim_limitless_enabled()){
+    if(!$common->is_trinity_connected()){
         display_translate_gui($post);
     }
 
@@ -108,7 +108,7 @@ function display_polly_gui($post) {
 
 		echo '<p><input type="checkbox" name="amazon_polly_enable" id="amazon_polly_enable" value="1"  ' . esc_attr( $polly_checked ) . '/><label for="amazon_polly_enable">Enable Text-To-Speech (Amazon Polly)</label> </p>';
 		echo '<div id="amazon_polly_post_options" style="' . esc_attr( $post_options_visibility ) . '">';
-        if(!$common->is_tim_limitless_enabled()){
+        if(!$common->is_trinity_connected()){
             if (!function_exists('sort_polly_voices')) {
                 function sort_polly_voices( $voice1, $voice2 ) {
                     return strcmp( $voice1['LanguageName'], $voice2['LanguageName'] );

@@ -99,17 +99,17 @@ class AmazonAI_GeneralConfiguration
             'tim_limitless_credentials_radio_gui'
         ), 'amazon_ai', 'amazon_ai_credentials');
 
-        add_settings_field(TIM_LIMITLESS_ENABLED, __('', 'amazonpolly'), array(
+        add_settings_field(TRINITY_CONNECTED, __('', 'amazonpolly'), array(
             $this,
             'tim_limitless_gui'
         ), 'amazon_ai', 'amazon_ai_credentials', array(
-            'label_for' => TIM_LIMITLESS_ENABLED
+            'label_for' => TRINITY_CONNECTED
         ));
 
         register_setting('amazon_ai', 'amazon_polly_access_key');
         register_setting('amazon_ai', 'amazon_polly_secret_key');
 
-        register_setting('amazon_ai', TIM_LIMITLESS_ENABLED);
+        register_setting('amazon_ai', TRINITY_CONNECTED);
         register_setting(TIM_LIMITLESS, TIM_LIMITLESS_INSTALLKEY);
         register_setting(TIM_LIMITLESS,TIM_LIMITLESS_VIEWKEY);
         // ************** GENERAL SECTION ************** *
@@ -118,7 +118,7 @@ class AmazonAI_GeneralConfiguration
             'general_gui'
         ), 'amazon_ai');
         if ($this->common->validate_amazon_polly_access()) {
-            if(!$this->common->is_tim_limitless_enabled()){
+            if(!$this->common->is_trinity_connected()){
                 add_settings_field('amazon_polly_region', __('AWS Region:', 'amazonpolly'), array(
                     $this,
                     'region_gui'
@@ -135,7 +135,7 @@ class AmazonAI_GeneralConfiguration
 
             // ************************************************* *
             // ************** STORAGE SECTION ************** *
-            if(!$this->common->is_tim_limitless_enabled()){
+            if(!$this->common->is_trinity_connected()){
                 add_settings_section('amazon_ai_storage', __('', 'amazonpolly'), array(
                     $this,
                     'storage_gui'
@@ -167,7 +167,7 @@ class AmazonAI_GeneralConfiguration
             ));
 
             $powered_string = '"Powered by AWS';
-            if ($this->common->is_tim_limitless_enabled()) $powered_string .= ' & TrinityAudio"';
+            if ($this->common->is_trinity_connected()) $powered_string .= ' & TrinityAudio"';
             else $powered_string .= '"';
             add_settings_field('amazon_polly_poweredby', __('Display '.$powered_string.':', 'amazonpolly'), array(
                 $this,
@@ -192,7 +192,7 @@ class AmazonAI_GeneralConfiguration
             register_setting('amazon_ai', 'amazon_ai_logging');
 
         }
-        if($this->common->is_tim_limitless_enabled()){
+        if($this->common->is_trinity_connected()){
             $this->common->create_tim_limitless_installkey();
         }
 
@@ -210,12 +210,12 @@ class AmazonAI_GeneralConfiguration
     }
 
     function tim_limitless_gui(){
-        if($this->common->is_tim_limitless_enabled()){
+        if($this->common->is_trinity_connected()){
             $checked                = ' checked ';
         }else{
             $checked                = ' ';
         }
-        echo '<input style="display:none;" type="checkbox" name="'.TIM_LIMITLESS_ENABLED.'" id="'.TIM_LIMITLESS_ENABLED.'" ' . esc_attr($checked) .'> <p class="description"></p>';
+        echo '<input style="display:none;" type="checkbox" name="'.TRINITY_CONNECTED.'" id="'.TRINITY_CONNECTED.'" ' . esc_attr($checked) .'> <p class="description"></p>';
     }
 
     function tim_limitless_credentials_separator_gui(){
@@ -227,7 +227,7 @@ class AmazonAI_GeneralConfiguration
     }
 
     function tim_limitless_credentials_radio_gui(){
-        if($this->common->is_tim_limitless_enabled()){
+        if($this->common->is_trinity_connected()){
             $trinity_connected      = true;
         }else{
             $trinity_connected      = false;
@@ -240,10 +240,9 @@ class AmazonAI_GeneralConfiguration
                    var divsArray = ["'.AMAZON_POLLY_ACCESS_KEY_DIV.'","'.AMAZON_POLLY_SECRET_KEY_DIV.'"];
                    var otherMenu = ["amazon_polly_region","amazon_ai_source_language","amazon_polly_s3","amazon_polly_posttypes","amazon_polly_poweredby","amazon_ai_logging","cloudfront_description"];
                    var h2Elements = ["general_configuration","other_settings","cloud_storage"];
-                   var trinityEnabled=document.getElementById("tim_limitless_enabled");
+                   var trinityEnabled=document.getElementById("trinity_connected");
                    if(element.value=="trinity"){
                        trinityEnabled.checked="checked";
-                       //showDivs(divsArray,"none",true);
                        if(!trinity_connected && amazon_connected){
                           showDivs(otherMenu,"none",true);
                           showDivs(h2Elements,"none",false);
@@ -258,7 +257,6 @@ class AmazonAI_GeneralConfiguration
                        }
                    }else {
                        trinityEnabled.checked="";
-                       //showDivs(divsArray, "",true);
                        if(trinity_connected){
                           showDivs(otherMenu,"none",true);
                           showDivs(h2Elements,"none",false);

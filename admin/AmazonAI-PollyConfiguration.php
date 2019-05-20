@@ -56,14 +56,14 @@ class AmazonAI_PollyConfiguration {
         if ($this->is_language_supported()) {
           if ($this->common->validate_amazon_polly_access() ) {
             if ($this->common->is_polly_enabled()) {
-                if(!$this->common->is_tim_limitless_enabled()){
+                if(!$this->common->is_trinity_connected()){
                     add_settings_field( 'amazon_polly_sample_rate', __('Sample rate:', 'amazonpolly'), array($this,'sample_rate_gui'), 'amazon_ai_polly', 'amazon_ai_polly', array('label_for' => 'amazon_polly_sample_rate'));
                     add_settings_field( 'amazon_polly_voice_id', __( 'Voice name:', 'amazonpolly' ), array( $this, 'voices_gui' ), 'amazon_ai_polly', 'amazon_ai_polly', array( 'label_for' => 'amazon_polly_voice_id' ) );
                     add_settings_field( 'amazon_polly_auto_breaths', __( 'Automated breaths:', 'amazonpolly' ), array( $this, 'auto_breaths_gui' ), 'amazon_ai_polly', 'amazon_ai_polly', array( 'label_for' => 'amazon_polly_auto_breaths_id' ) );
                     add_settings_field( 'amazon_polly_ssml', __( 'Enable SSML support:', 'amazonpolly' ), array( $this, 'ssml_gui' ), 'amazon_ai_polly', 'amazon_ai_polly', array( 'label_for' => 'amazon_polly_ssml' ) );
                     add_settings_field( 'amazon_polly_lexicons', __( 'Lexicons:', 'amazonpolly' ), array( $this, 'lexicons_gui' ), 'amazon_ai_polly', 'amazon_ai_polly', array( 'label_for' => 'amazon_polly_lexicons' ) );
                 }
-                if($this->common->is_tim_limitless_enabled()){
+                if($this->common->is_trinity_connected()){
                     add_settings_field( 'tim_limitless_gender_id', __( 'Gender:', 'amazonpolly' ), array( $this, 'tim_limitless_gender_gui' ), 'amazon_ai_polly', 'amazon_ai_polly', array( 'label_for' => 'tim_limitless_gender_id' ) );
                 }
 
@@ -73,13 +73,13 @@ class AmazonAI_PollyConfiguration {
         			add_settings_field( 'amazon_polly_position', __( 'Player position:', 'amazonpolly' ), array( $this, 'playerposition_gui' ), 'amazon_ai_polly', 'amazon_ai_playersettings', array( 'label_for' => 'amazon_polly_position' ) );
         			add_settings_field( 'amazon_polly_player_label', __( 'Player label:', 'amazonpolly' ), array( $this, 'playerlabel_gui' ), 'amazon_ai_polly', 'amazon_ai_playersettings', array( 'label_for' => 'amazon_polly_player_label' ) );
         			add_settings_field( 'amazon_polly_defconf', __( 'New post default:', 'amazonpolly' ), array( $this, 'defconf_gui' ), 'amazon_ai_polly', 'amazon_ai_playersettings', array( '' => 'amazon_polly_defconf' ) );
-                if(!$this->common->is_tim_limitless_enabled()){
+                if(!$this->common->is_trinity_connected()){
                     add_settings_field( 'amazon_polly_autoplay', __( 'Autoplay:', 'amazonpolly' ), array( $this, 'autoplay_gui' ), 'amazon_ai_polly', 'amazon_ai_playersettings', array( 'label_for' => 'amazon_polly_autoplay' ) );
                 }
 
 
         			add_settings_section( 'amazon_ai_pollyadditional', __( 'Additional configuration', 'amazonpolly' ), array( $this, 'pollyadditional_gui' ), 'amazon_ai_polly');
-                if(!$this->common->is_tim_limitless_enabled()){
+                if(!$this->common->is_trinity_connected()){
                     add_settings_field( 'amazon_polly_update_all', __( 'Bulk update all posts:', 'amazonpolly' ), array( $this, 'update_all_gui' ),'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_polly_update_all' ) );
                 }else{
                     add_settings_field( 'tim_limiless_update_all', __( 'Bulk update all posts:', 'amazonpolly' ), array( $this, 'update_all_gui_tim_limitless' ),'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'tim_limiless_update_all' ) );
@@ -87,25 +87,25 @@ class AmazonAI_PollyConfiguration {
 
         			add_settings_field( 'amazon_polly_add_post_title', __( 'Add post title to audio:', 'amazonpolly' ), array( $this, 'add_post_title_gui' ), 'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_polly_add_post_title' ) );
         			add_settings_field( 'amazon_polly_add_post_excerpt', __( 'Add post excerpt to audio:', 'amazonpolly' ), array( $this, 'add_post_excerpt_gui' ), 'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_polly_add_post_excerpt' ) );
-                if(!$this->common->is_tim_limitless_enabled()){
+                if(!$this->common->is_trinity_connected()){
                     add_settings_field( 'amazon_ai_medialibrary_enabled', __( 'Enable Media Library support:', 'amazonpolly' ), array( $this, 'medialibrary_enabled_gui' ), 'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_ai_medialibrary_enabled' ) );
                 }
 
               add_settings_field( 'amazon_ai_skip_tags', __( 'Skip tags:', 'amazonpolly' ), array( $this, 'skiptags_gui' ), 'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_ai_skip_tags' ) );
-                if(!$this->common->is_tim_limitless_enabled()) {
+                if(!$this->common->is_trinity_connected()) {
                     add_settings_field( 'amazon_ai_download_enabled', __( 'Enable download audio:', 'amazonpolly' ), array( $this, 'download_gui' ), 'amazon_ai_polly', 'amazon_ai_pollyadditional', array( 'label_for' => 'amazon_ai_download_enabled' ) );
                 }
 
 
         			//Registration
-                if(!$this->common->is_tim_limitless_enabled()){
+                if(!$this->common->is_trinity_connected()){
                     register_setting('amazon_ai_polly', 'amazon_polly_sample_rate');
                     register_setting('amazon_ai_polly', 'amazon_polly_voice_id');
                     register_setting('amazon_ai_polly', 'amazon_polly_auto_breaths');
                     register_setting('amazon_ai_polly', 'amazon_polly_ssml');
                     register_setting('amazon_ai_polly', 'amazon_polly_lexicons');
                 }
-                if($this->common->is_tim_limitless_enabled()){
+                if($this->common->is_trinity_connected()){
                     register_setting( 'amazon_ai_polly',TIM_LIMITLESS_GENDER_ID);
                 }
 
@@ -114,7 +114,7 @@ class AmazonAI_PollyConfiguration {
         			register_setting('amazon_ai_polly', 'amazon_polly_position');
         			register_setting('amazon_ai_polly', 'amazon_polly_player_label');
         			register_setting('amazon_ai_polly', 'amazon_polly_defconf');
-                if(!$this->common->is_tim_limitless_enabled()){
+                if(!$this->common->is_trinity_connected()){
                     register_setting('amazon_ai_polly', 'amazon_polly_autoplay');
                 }
 
@@ -122,12 +122,12 @@ class AmazonAI_PollyConfiguration {
         			register_setting('amazon_ai_polly', 'amazon_polly_update_all');
         			register_setting('amazon_ai_polly', 'amazon_polly_add_post_title');
         			register_setting('amazon_ai_polly', 'amazon_polly_add_post_excerpt');
-                if(!$this->common->is_tim_limitless_enabled()){
+                if(!$this->common->is_trinity_connected()){
                     register_setting('amazon_ai_polly', 'amazon_ai_medialibrary_enabled');
                 }
 
               register_setting('amazon_ai_polly', 'amazon_ai_skip_tags');
-                if(!$this->common->is_tim_limitless_enabled()) {
+                if(!$this->common->is_trinity_connected()) {
                     register_setting('amazon_ai_polly', 'amazon_ai_download_enabled');
 
                 }

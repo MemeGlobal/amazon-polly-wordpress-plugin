@@ -285,7 +285,7 @@ class Amazonpolly_Public {
 		if ( !$common->is_audio_download_enabled() ) {
 			$controlsList = ' controlsList="nodownload" ';
 		}
-        if($common->is_tim_limitless_enabled()){
+        if($common->is_trinity_connected()){
             $new_audio_location = TRINITY_AUDIO_LOADING_MP3;
         }
 		$response = '<div id="amazon-ai-player-container">
@@ -293,7 +293,7 @@ class Amazonpolly_Public {
 				<source id="audio-source" type="audio/mpeg" src="' . $new_audio_location . '">
 			</audio>
 		</div>';
-		if($common->is_tim_limitless_enabled()){
+		if($common->is_trinity_connected()){
             $post_id = $GLOBALS['post']->ID;
             $php_config=array();
 

@@ -242,7 +242,7 @@ class AmazonAI_Common
 	 */
 	public function __construct() {
 		$this->logger = new AmazonAI_Logger();
-		if($this->is_tim_limitless_enabled()){
+		if($this->is_trinity_connected()){
 		    $this->languages=$this->get_languages_array_tim_limitless();
         }
 	}
@@ -411,7 +411,7 @@ class AmazonAI_Common
 	}
 
     public function is_audio_download_enabled() {
-        if($this->is_tim_limitless_enabled()){
+        if($this->is_trinity_connected()){
             return false;
         }else{
             $value = $this->checked_validator('amazon_ai_download_enabled');
@@ -482,7 +482,7 @@ class AmazonAI_Common
 	 */
 	public function is_translation_enabled()
 	{
-        if($this->is_tim_limitless_enabled()){
+        if($this->is_trinity_connected()){
             return false;
         }
 				if ($this->is_s3_enabled()) {
@@ -566,8 +566,8 @@ class AmazonAI_Common
 		return $output;
     }
 
-    public function is_tim_limitless_enabled(){
-        $value = get_option(TIM_LIMITLESS_ENABLED, 'on');
+    public function is_trinity_connected(){
+        $value = get_option(TRINITY_CONNECTED, 'on');
         $result = (!empty($value));
         return $result;
     }
@@ -636,7 +636,7 @@ class AmazonAI_Common
 	 */
 	public function validate_amazon_polly_access()
 	{
-        if($this->is_tim_limitless_enabled()){
+        if($this->is_trinity_connected()){
             return true;
         }
 		try {
@@ -839,7 +839,7 @@ class AmazonAI_Common
                 array("LanguageName" => "German", "Id" => "Marlene")
             )
         );
-        if(!$this->is_tim_limitless_enabled()){
+        if(!$this->is_trinity_connected()){
             $voices =  $this->polly_client->describeVoices();
         }
 		return $voices;
@@ -1293,10 +1293,10 @@ class AmazonAI_Common
 
 		// Depending on the plugin configurations, post's title will be added to the audio.
 		if ($with_title) {
-			if ($this->is_title_adder_enabled() &&  !$this->is_tim_limitless_enabled()) {
+			if ($this->is_title_adder_enabled() &&  !$this->is_trinity_connected()) {
 				$clean_text = get_the_title($post_id) . '. **AMAZONPOLLY*SSML*BREAK*time=***1s***SSML** ';
 			}
-			else if($this->is_tim_limitless_enabled()){
+			else if($this->is_trinity_connected()){
                 $clean_text = get_the_title($post_id);
             }
 		}
@@ -1304,11 +1304,11 @@ class AmazonAI_Common
 
 		// Depending on the plugin configurations, post's excerpt will be added to the audio.
 
-		if ($this->is_excerpt_adder_enabled() &&  !$this->is_tim_limitless_enabled()) {
+		if ($this->is_excerpt_adder_enabled() &&  !$this->is_trinity_connected()) {
 			$my_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
 			$clean_text = $clean_text . $my_excerpt . ' **AMAZONPOLLY*SSML*BREAK*time=***1s***SSML** ';
 		}
-		else if($with_excerpt && $this->is_tim_limitless_enabled()){
+		else if($with_excerpt && $this->is_trinity_connected()){
             $my_excerpt = apply_filters('the_excerpt', get_post_field('post_excerpt', $post_id));
             $clean_text = $clean_text . $my_excerpt;
         }

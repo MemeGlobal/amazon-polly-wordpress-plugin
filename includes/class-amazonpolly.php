@@ -199,7 +199,7 @@ class Amazonpolly {
 
         $this->loader->add_action( 'before_delete_post', $common, 'delete_post' );
         $this->loader->add_action( 'wp_ajax_polly_transcribe', $polly_service, 'ajax_bulk_synthesize' );
-        if($common->is_tim_limitless_enabled()){
+        if($common->is_trinity_connected()){
             $this->loader->add_action( 'wp_ajax_tim_limitless_bulk_update', $polly_service, 'tim_limitless_ajax_bulk_synthesize_enable_polly' );
         }
 
@@ -211,7 +211,7 @@ class Amazonpolly {
         $this->loader->add_action( 'admin_menu', $polly_configuration, 'display_options' );
 
 
-        if(!$common->is_tim_limitless_enabled()){
+        if(!$common->is_trinity_connected()){
             $this->loader->add_action( 'wp_ajax_polly_translate', $translate_service, 'ajax_translate' );
             $this->loader->add_action( 'admin_menu', $translate_configuration, 'amazon_ai_add_menu' );
             $this->loader->add_action( 'admin_menu', $translate_configuration, 'display_options' );

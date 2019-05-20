@@ -135,7 +135,7 @@ class AmazonAI_S3FileHandler extends AmazonAI_FileHandler {
 
     public function create_s3_bucket() {
       $common = new AmazonAI_Common();
-      if($common->is_tim_limitless_enabled()){
+      if($common->is_trinity_connected()){
           return;
       }
       $logger = new AmazonAI_Logger();

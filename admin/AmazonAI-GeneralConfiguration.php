@@ -240,7 +240,7 @@ class AmazonAI_GeneralConfiguration
                    var divsArray = ["'.AMAZON_POLLY_ACCESS_KEY_DIV.'","'.AMAZON_POLLY_SECRET_KEY_DIV.'"];
                    var otherMenu = ["amazon_polly_region","amazon_ai_source_language","amazon_polly_s3","amazon_polly_posttypes","amazon_polly_poweredby","amazon_ai_logging","cloudfront_description"];
                    var h2Elements = ["general_configuration","other_settings","cloud_storage"];
-                   var trinityEnabled=document.getElementById("trinity_connected");
+                   var trinityEnabled=document.getElementById("'.TRINITY_CONNECTED.'");
                    if(element.value=="trinity"){
                        trinityEnabled.checked="checked";
                        if(!trinity_connected && amazon_connected){

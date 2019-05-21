@@ -14,6 +14,7 @@ const TRINITY_AUDIO_LOADING_MP3 = "https://vd.trinitymedia.ai/loading.mp3";
 const TRINITY_AUDIO_SERVICE = 'https://audio.trinityaudio.ai/';
 const TRINITY_AUDIO_WP_SERVICE = TRINITY_AUDIO_SERVICE . 'wordpress/';
 const TRINITY_AUDIO_POST_HASH_URL = TRINITY_AUDIO_WP_SERVICE . 'posthash';
+const TRINITY_AUDIO_IS_ENOUGH_CREDITS_URL = TRINITY_AUDIO_WP_SERVICE . 'is_enough_credits';
 const TRINITY_AUDIO_KEYS_URL = TRINITY_AUDIO_WP_SERVICE . 'signup?site_domain=';
 const TRINITY_AUDIO_LANGUAGES = TRINITY_AUDIO_WP_SERVICE . "languages?installkey=";
 const TRINITY_AUDIO_AUDIO_URL = TRINITY_AUDIO_SERVICE . 'process';

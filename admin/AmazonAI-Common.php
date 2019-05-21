@@ -629,6 +629,22 @@ class AmazonAI_Common
         return $postHash;
     }
 
+    public function is_trinity_enough_credits($post_id){
+        $clean_text = $this->clean_text( $post_id, $this->is_title_adder_enabled(), false,$this->is_excerpt_adder_enabled());
+        $installkey = $this->get_tim_limitless_installkey();
+        // The data to send to the API
+        $postData = array(
+            'text' => $clean_text,
+            'installkey' =>$installkey,
+        );
+        $responseData = $this->curl_post_tim_limitless($postData,TRINITY_AUDIO_IS_ENOUGH_CREDITS_URL);
+        if($responseData){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 	/**
 	 * Validates if AWS configuration is correct and AWS can be reached.
 	 *

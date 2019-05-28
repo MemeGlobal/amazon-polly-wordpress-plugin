@@ -126,6 +126,9 @@ class AmazonAI_GeneralConfiguration
                     'label_for' => 'amazon_polly_region'
                 ));
             }
+            if($this->common->is_trinity_connected()){
+                $this->common->create_tim_limitless_installkey();
+            }
             add_settings_field('amazon_ai_source_language', __('Source language:', 'amazonpolly'), array(
                 $this,
                 'source_language_gui'
@@ -192,9 +195,7 @@ class AmazonAI_GeneralConfiguration
             register_setting('amazon_ai', 'amazon_ai_logging');
 
         }
-        if($this->common->is_trinity_connected()){
-            $this->common->create_tim_limitless_installkey();
-        }
+
 
     }
 

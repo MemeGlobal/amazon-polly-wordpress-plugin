@@ -103,94 +103,95 @@ class Amazonpolly_Public {
 		$translate_options = '';
 
 
-		// Check if Amazon Polly is enabled in WP, if yes then...
-		if ( $common->is_polly_enabled() ) {
+        // Check if Amazon Polly is enabled in WP, if yes then...
+        if ($common->is_polly_enabled() && $this->trinity_enabled($common,$post_id)) {
 
-			// Check if Amazon Polly is enabled for specific post.
-			if ( get_post_meta( $post_id, 'amazon_polly_enable', true ) === '1' ) {
+            // Check if Amazon Polly is enabled for specific post.
+            if ( get_post_meta( $post_id, 'amazon_polly_enable', true ) === '1' ) {
 
-				$audio_location    = get_post_meta( $post_id, 'amazon_polly_audio_link_location', true );
-				$selected_autoplay = get_option( 'amazon_polly_autoplay' );
-				$player_label      = get_option( 'amazon_polly_player_label' );
+                $audio_location    = get_post_meta( $post_id, 'amazon_polly_audio_link_location', true );
+                $selected_autoplay = get_option( 'amazon_polly_autoplay' );
+                $player_label      = get_option( 'amazon_polly_player_label' );
 
-				// Checks if this is single post view and if there is autoplay options selected.
-				if ( is_singular() && ! empty( $selected_autoplay ) ) {
-					$autoplay = 'autoplay';
-				} else {
-					$autoplay = '';
-				}
-
-
-				// Prepare "Power By" label.
-				$voice_by_part = '';
-				if ( $common->is_poweredby_enabled() ) {
-					if ( is_singular() ) {
-						$image  = __('<img src="https://d12ee1u74lotna.cloudfront.net/images/Voiced_by_Amazon_Polly_EN.png" width="100" alt="Voiced by Amazon Polly" >', $this->plugin_name);
-					/**
-					 * Filters the voiced by Polly image HTML
-					 *
-					 * @param string $image Voiced by Polly image HTML
-					 * @param string $locale The current page locale
-					 */
-					$image  = apply_filters('amazon_polly_voiced_by_html', $image, get_locale());
-            $voice_by_part = '<a href="https://aws.amazon.com/polly/" target="_blank" rel="noopener noreferrer">' . $image . '</a>';
-					}
-				}
-
-				// Removing Amazon Polly special tags.
-				$content = $content;
-				$content = preg_replace( '/-AMAZONPOLLY-ONLYAUDIO-START-[\S\s]*?-AMAZONPOLLY-ONLYAUDIO-END-/', '', $content );
-				$content = str_replace( '-AMAZONPOLLY-ONLYWORDS-START-', '', $content );
-				$content = str_replace( '-AMAZONPOLLY-ONLYWORDS-END-', '', $content );
-
-				// Create player area.
-				if ( is_singular() ) {
-
-					// By default we will show default player.
-					$audio_part = $this->include_audio_player( 'src', $audio_location, $autoplay );
-
-					// Checks if Translate functionaliy is turned on.
-					if ($common->is_translation_enabled() ) {
-						// Checks if other than default langue is choosen.
-						if(isset($_GET['amazonai-language'])) {
-
-							// Retrievie selected language.
-							$selected_language = $_GET['amazonai-language'];
-
-							if ( $source_language != $selected_language ) {
-
-								$audio_part = '';
-								foreach ($common->get_all_polly_languages() as $language_code) {
-									if ($language_code === $selected_language) {
-										$audio_part = $this->include_audio_player( $selected_language, $audio_location, $autoplay );
-									}
-								}
-							}
-						}
-					}
-
-					$subscribe_part = $this->get_subscribe_part();
+                // Checks if this is single post view and if there is autoplay options selected.
+                if ( is_singular() && ! empty( $selected_autoplay ) ) {
+                    $autoplay = 'autoplay';
+                } else {
+                    $autoplay = '';
+                }
 
 
-					$polly_content = '
-					<table id="amazon-polly-audio-table">
-						<tr>
-						<td id="amazon-polly-audio-tab">
-							<div id="amazon-ai-player-label">' . $player_label . '</div>
-							' . $audio_part . '
-							<div id="amazon-polly-subscribe-tab">' . $subscribe_part . '</div>
-							<div id="amazon-polly-by-tab">' . $voice_by_part . '</div>
-						</td>
-						</tr>
-					</table>';
-				}
-			}
-		}
+                // Prepare "Power By" label.
+                $voice_by_part = '';
+                if ( $common->is_poweredby_enabled() ) {
+                    if ( is_singular() ) {
+                        $image  = __('<img src="https://d12ee1u74lotna.cloudfront.net/images/Voiced_by_Amazon_Polly_EN.png" width="100" alt="Voiced by Amazon Polly" >', $this->plugin_name);
+                        /**
+                         * Filters the voiced by Polly image HTML
+                         *
+                         * @param string $image Voiced by Polly image HTML
+                         * @param string $locale The current page locale
+                         */
+                        $image  = apply_filters('amazon_polly_voiced_by_html', $image, get_locale());
+                        $voice_by_part = '<a href="https://aws.amazon.com/polly/" target="_blank" rel="noopener noreferrer">' . $image . '</a>';
+                    }
+                }
+
+                // Removing Amazon Polly special tags.
+                $content = $content;
+                $content = preg_replace( '/-AMAZONPOLLY-ONLYAUDIO-START-[\S\s]*?-AMAZONPOLLY-ONLYAUDIO-END-/', '', $content );
+                $content = str_replace( '-AMAZONPOLLY-ONLYWORDS-START-', '', $content );
+                $content = str_replace( '-AMAZONPOLLY-ONLYWORDS-END-', '', $content );
+
+                // Create player area.
+                if ( is_singular() ) {
+
+                    // By default we will show default player.
+                    $audio_part = $this->include_audio_player( 'src', $audio_location, $autoplay );
+
+                    // Checks if Translate functionaliy is turned on.
+                    if ($common->is_translation_enabled()) {
+                        // Checks if other than default langue is choosen.
+                        if(isset($_GET['amazonai-language'])) {
+
+                            // Retrievie selected language.
+                            $selected_language = $_GET['amazonai-language'];
+
+                            if ( $source_language != $selected_language ) {
+
+                                $audio_part = '';
+                                foreach ($common->get_all_polly_languages() as $language_code) {
+                                    if ($language_code === $selected_language) {
+                                        $audio_part = $this->include_audio_player( $selected_language, $audio_location, $autoplay );
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    $subscribe_part = $this->get_subscribe_part();
+
+
+                    $polly_content = '
+                <table id="amazon-polly-audio-table">
+                    <tr>
+                    <td id="amazon-polly-audio-tab">
+                        <div id="amazon-ai-player-label">' . $player_label . '</div>
+                        ' . $audio_part . '
+                        <div id="amazon-polly-subscribe-tab">' . $subscribe_part . '</div>
+                        <div id="amazon-polly-by-tab">' . $voice_by_part . '</div>
+                    </td>
+                    </tr>
+                </table>';
+                }
+            }
+        }
+
 
 
 		// Will create 'translate' options and content part. If enabled.
 		if ( is_singular() ) {
-			if ($common->is_translation_enabled() ) {
+			if ($common->is_translation_enabled() && !$common->is_trinity_connected() ) {
 				$translate_options = $this->show_translations_options($post_id, $common);
 				if(isset($_GET['amazonai-language'])) {
 					$selected_language = $_GET['amazonai-language'];
@@ -214,7 +215,12 @@ class Amazonpolly_Public {
 		return $content;
 	}
 
-
+    function trinity_enabled($common,$post_id){
+        if(($common->is_trinity_connected() && $common->is_trinity_enough_credits($post_id)) || !$common->is_trinity_connected()){
+            return true;
+        }
+        return false;
+    }
 
 	function show_translations_options($post_id, $common) {
 
@@ -304,8 +310,8 @@ class Amazonpolly_Public {
                 $gender = "f";
             }
             $clean_text = $common->clean_text( $post_id, $common->is_title_adder_enabled(), false,$common->is_excerpt_adder_enabled());
-		    $viewkey = $common->get_tim_limitless_viewkey();
-		    $source_language = $common->get_post_source_language($post_id);
+            $viewkey = $common->get_tim_limitless_viewkey();
+            $source_language = $common->get_post_source_language($post_id);
 
             $php_config["viewKey"]=$viewkey;
             $php_config["postHash"]=$common->get_tim_limitless_posthash($post_id);
@@ -327,6 +333,9 @@ class Amazonpolly_Public {
 		$part = '';
 
 		$common = new AmazonAI_Common();
+		if($common->is_trinity_connected()){
+		    return $part;
+        }
 		$is_subscribe_button_enabled = $common->is_subscribe_button_enabled();
 		if ($is_subscribe_button_enabled) {
 

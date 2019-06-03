@@ -582,8 +582,6 @@ class AmazonAI_Common
 			$responseData=json_decode($response, TRUE);
             update_option( TIM_LIMITLESS_INSTALLKEY, $responseData["installkey"]);
             update_option(TIM_LIMITLESS_VIEWKEY,$responseData["viewkey"]);
-            $polly_service = new AmazonAI_PollyService();
-            $polly_service->tim_limitless_ajax_bulk_synthesize(false);
         }
         else{
             $this->show_error_notice("notice-error", "Can't connect to tim limitless! Please contact Tim Support support@thetimmedia.com");

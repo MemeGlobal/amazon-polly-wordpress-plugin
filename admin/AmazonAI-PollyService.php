@@ -100,42 +100,46 @@ class AmazonAI_PollyService {
             update_post_meta( $post_id, $post_meta_field, $responseData['postHash']);
         }
     }
-    public function tim_limitless_ajax_bulk_synthesize_enable_polly(){
-        header('Content-type: application/json');
-        if($this->tim_limitless_ajax_bulk_synthesize(true)){
-           $result="success";
-        }else{
-           $result="failure";
-        }
-        echo wp_json_encode(
-            array(
-                "status"=>$result
-            )
-        );
-        wp_die();
-    }
 
-    public function tim_limitless_ajax_bulk_synthesize($enable_polly){
+    public function tim_limitless_ajax_bulk_update(){
+        header('Content-type: application/json');
         $common = new AmazonAI_Common();
         $common->init();
         $post_ids = get_posts(array(
             'fields'          => 'ids', // Only get post IDs
             'posts_per_page'  => -1
         ));
-        $isError = false;
-        foreach ($post_ids as $id){
-            try{
-                $this->save_post_tim_limitless($common,$id);
-                if($enable_polly){
-                    update_post_meta( $id, 'amazon_polly_enable', 1);
-                }
-            }
-            catch (Exception $e){
-                error_log("bulk update error for post_id:".$id." error:".$e->getMessage(), 0);
-                $isError=true;
-            }
+        $index = $_POST['index'];
+        $num_posts = sizeof($post_ids);
+        if($num_posts-1<$index){
+            echo wp_json_encode(
+                array(
+                    "status"=>"done",
+                    "index"=>$index,
+                    "num_posts"=>$num_posts
+                )
+            );
+            wp_die();
+            return;
         }
-        return !$isError;
+        try{
+            $this->save_post_tim_limitless($common,$post_ids[index]->id);
+            update_post_meta( $post_ids[index]->id, 'amazon_polly_enable', 1);
+
+        }
+        catch (Exception $e){
+            error_log("bulk update error for post_id:".$post_ids[index]->id." error:".$e->getMessage(), 0);
+        }
+
+        echo wp_json_encode(
+            array(
+                "status"=>"not_done",
+                "index"=>$index,
+                "num_posts"=>$num_posts
+            )
+        );
+        wp_die();
+
     }
 
 	/**

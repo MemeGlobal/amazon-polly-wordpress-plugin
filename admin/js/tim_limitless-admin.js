@@ -35,13 +35,14 @@
         timDiv.insertBefore(div, timDiv.childNodes[0]);
     }
 
-    function updateAllPosts() {
+    function updateAllPosts(index) {
 
         $.ajax({
             type: 'POST',
             url: ajaxurl,
             data: {
                 action: 'tim_limitless_bulk_update',
+                index:index
             },
             dataType: "json",
             beforeSend: function() {
@@ -51,12 +52,14 @@
             complete: function() {
             },
             success: function( response ) {
-				 showLoader(false);
                  var label = document.getElementById("successLabel");
-                 if(response.status=="success"){
-                    label.innerText="All posts were updated successfully.";
+                 if(response.status=="not_done"){
+                     response.index++;
+                     label.innerText = response.index + " of " +response.num_posts +" posts were updated.";
+                     updateAllPosts(response.index);
                  }else{
-                    label.innerText="Update finished. Some posts failed to update.";
+                     showLoader(false);
+                     label.innerText="All posts were updated";
                  }
             }
         }).fail(function (response) {
@@ -75,7 +78,7 @@
             $( '#tim_limitless_update_all' ).click(
                 function(){
                     addLoaderToPage();
-                    updateAllPosts();
+                    updateAllPosts(0);
                 }
             );
 
